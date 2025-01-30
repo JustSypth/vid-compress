@@ -2,7 +2,7 @@
 name = "vid-compress"
 version = "0.1.0"
 description = "A GUI tool for compressing videos."
-authors = ["you"]
+authors = ["justsypth"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
