@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Compression Tool (by sypth.xyz)</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="exit.css">
+</head>
+<body>
+
+    <div class="main">
+      <h1>Video Compressor</h1>
+      <div class="horizontal-line"></div>
+      <div class="path">
+        <input class="textbox" type="text" placeholder="Enter video path here...">
+        <button class="btn">Select</button>
+      </div>
+      <div class="slider">
+        <span class="slider-label">CFG:</span>
+        <input type="range" class="slider-input" id="slider" min="0" max="51" step="1" value="32">
+        <span id="slider-value">32</span>
+      </div>
+
+      <button class="text-button" id="advanced">Advanced <small>▼</small></button>
+      <div class="path" id="advanced_box" style="display: none; margin-top: 0; gap: 16px;">
+        <p style="margin: auto;">Preset:</p>
+        <input class="option" list="presets" id="preset" autocomplete="off">
+        <datalist id="presets">
+          <option value="ultrafast"/>
+          <option value="veryfast"/>
+          <option value="medium"/>
+          <option value="slow"/>
+          <option value="verslow"/>
+        </datalist>
+      </div>
+
+      <button class="btn" style="width: 240px; height: 35px; margin-top: auto; margin-bottom: 25px;">Start</button>
+      
+    </div>
+    
+    <script src="bridge.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

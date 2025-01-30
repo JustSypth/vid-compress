@@ -1,0 +1,24 @@
+.close-btn {
+    position: absolute; /* Position the button absolutely within the body */
+    top: 15px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 32px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+    color: #ffffff; /* White text */
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2); /* Slightly brighter on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.close-btn:active {
+    transform: scale(0.95); /* Slightly shrink when clicked */
+}

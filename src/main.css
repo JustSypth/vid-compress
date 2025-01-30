@@ -1,0 +1,128 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a, #2b1c37, #442550); /* Dark gradient */
+    margin: 0;
+    font-family: Lexend;
+    color: rgb(231, 231, 231);
+}
+
+.main {
+    padding-top: 35px;
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent dark background */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Darker shadow */
+    border-radius: 12px;
+    width: 448px;
+    height: 512px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin: 0px;
+}
+
+.horizontal-line {
+    width: 80%; /* Make the line span the entire width */
+    height: 2px; /* Thickness */
+    background-color: rgba(255, 255, 255, 0.1); /* Color of the line */
+    margin: 20px 0; /* Optional spacing around the line */
+}
+
+.path {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
+}
+
+.slider {
+    width: 65%;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.slider-input {
+    width: 100%;
+}
+
+.textbox {
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.4); /* Darker button background */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+}
+
+.option {
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.4); /* Darker button background */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+}
+
+.btn {
+    font-family: 'Exo_2';
+    font-weight: 400;
+    width: 80px;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.4); /* Darker button background */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.2); /* Slightly brighter on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Darker shadow on hover */
+}
+
+.btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Darker shadow when clicked */
+}
+
+.text-button {
+    font-family: 'Exo_2';
+    margin-top: 25px;
+    margin-bottom: 25px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+@font-face {
+    font-family: 'Lexend';
+    src: url("fonts/Lexend/Lexend-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: 'Exo_2';
+    src: url("fonts/Exo_2/Exo2-VariableFont_wght.ttf");
+}
