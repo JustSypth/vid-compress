@@ -11,8 +11,8 @@
     "windows": [
       {
         "title": "Video Compression Tool",
-        "width": 480,
-        "height": 584
+        "width": 512,
+        "height": 576
       }
     ],
     "security": {

@@ -1,12 +1,13 @@
 body {
+    transform: scale(0.8);  
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     background: linear-gradient(135deg, #1a1a1a, #2b1c37, #442550); /* Dark gradient */
     margin: 0;
     font-family: Lexend;
     color: rgb(231, 231, 231);
+    height: 100vh;
 }
 
 .main {
