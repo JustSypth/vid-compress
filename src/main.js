@@ -1,23 +1,17 @@
 const slider = document.getElementById("slider");
 const output = document.getElementById("slider-value");
+const advanced = document.getElementById("advanced");
+const advancedBox = document.getElementById("advanced_box");
 
+// Update slider value display
 slider.addEventListener("input", () => {
     output.textContent = slider.value;
 });
 
-const advanced = document.getElementById("advanced");
-const advanced_box = document.getElementById("advanced_box");
-let x = 0;
+// Toggle advanced box visibility
 advanced.addEventListener("click", () => {
-    if (x == 0) {
-        //open
-        advanced.innerHTML = "Advanced <small>▲</small>";
-        x = 1;
-        advanced_box.style.display = "flex";
-    } else {
-        //close
-        advanced.innerHTML = "Advanced <small>▼</small>";
-        advanced_box.style.display = "none";
-        x = 0;
-    }
+    const isOpen = advancedBox.style.display === "flex";
+    
+    advancedBox.style.display = isOpen ? "none" : "flex";
+    advanced.innerHTML = `Advanced <small>${isOpen ? "▼" : "▲"}</small>`;
 });
