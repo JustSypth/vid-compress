@@ -57,12 +57,12 @@ h1 {
 
 .textbox {
     color: white;
+    padding-left: 10px;
     font-size: 18px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
-    text-align: center;
     backdrop-filter: blur(15px);
     background: rgba(0, 0, 0, 0.4); /* Darker button background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
@@ -70,6 +70,7 @@ h1 {
 
 .option {
     color: white;
+    padding-left: 10px;
     font-size: 18px;
     border: none;
     border-radius: 8px;
