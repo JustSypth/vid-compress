@@ -23,3 +23,10 @@ async function begin() {
         console.error('begin(): Error calling backend:', error);
     }
 }
+
+const { listen } = window.__TAURI__.event;
+listen('progress', (event) => {
+    const progressbar = document.getElementById('progress');
+    progressbar.style.display = "block";
+    progressbar.innerHTML = event.payload;
+});

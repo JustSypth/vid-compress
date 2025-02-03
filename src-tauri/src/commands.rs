@@ -1,4 +1,7 @@
+use crate::core;
+use std::path::PathBuf;
 use native_dialog::FileDialog;
+use tauri::AppHandle;
 
 #[tauri::command]
 pub async fn get_path() -> Result<String, String> {
@@ -17,10 +20,11 @@ pub async fn get_path() -> Result<String, String> {
 }
 
 #[tauri::command]
-pub async fn begin(path: String, cfg: String, preset: String) {
-    println!("Path: {path}\nCFG: {cfg}\nPreset: {preset}");
+pub async fn begin(app: AppHandle, path: String, cfg: String, preset: String) {
+    println!("DEBUG: Path: {path} CFG: {cfg} Preset: {preset}");
 
-    if path.is_empty() {
-        eprint!("'Path' is empty, cannot be empty nuh uh!")
-    }
+    let preset = if preset.is_empty() {"slow"} else {&preset}.to_string();
+    let path = PathBuf::from(path);
+
+    core::begin(&app, &path, &cfg, &preset);
 }
