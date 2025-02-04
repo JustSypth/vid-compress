@@ -14,34 +14,42 @@ pub fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &String) {
             path.extension().unwrap().to_str().unwrap()
         ));
 
-        // Generate the ffmpeg command
-        let execute_arg = format!(
-            "ffmpeg -i '{}' -vcodec libx264 -crf {} -preset {} -acodec aac -b:a 128k -y '{}'",
-            path.display(),
-            cfg,
-            preset,
-            output_path.display()
-        );
+    let input_path = path.display().to_string();
+    let crf_value = cfg.to_string();
+    let output_path_str = output_path.display().to_string();
 
-        app.emit("progress", "Compressing file...").unwrap();
-        println!("Processing file with this command:\n{}", &execute_arg);
+    let execute_arg = vec![
+        "-i", &input_path,
+        "-vcodec", "libx264",
+        "-crf", &crf_value,
+        "-preset", &preset,
+        "-acodec", "aac",
+        "-b:a", "128k",
+        "-y", &output_path_str,
+    ];
 
-        // Execute the command
-        let execute = Command::new("sh")
-            .arg("-c")
-            .arg(&execute_arg)
-            .output()
-            .expect("Failed to execute ffmpeg.");
+    app.emit("progress", "Compressing file...").unwrap();
+    println!("Processing file with this command:\nffmpeg {}", execute_arg.join(" "));
+
+    app.emit("progress", "Compressing file...").unwrap();
+    // println!("Processing file with this command:\n{}", &execute_arg);
+
+    // Execute the command
+    let execute = Command::new("ffmpeg")
+        .args(&execute_arg)
+        .output()
+        .expect("Failed to execute ffmpeg.");
 
 
-        if execute.status.success() {
-            let message = "Video compressed successfully";
-            app.emit("progress", message).unwrap();
-        } else {
-            let message = format!("Process failed with status: {}", execute.status);
-            eprint!("{}", String::from_utf8_lossy(&execute.stderr));
-            app.emit("progress", message).unwrap();
-        }
+    if execute.status.success() {
+        let message = "Video compressed successfully";
+        app.emit("progress", message).unwrap();
+        println!("{message}")
+    } else {
+        let message = format!("Process failed with status: {}", execute.status);
+        eprint!("{}", String::from_utf8_lossy(&execute.stderr));
+        app.emit("progress", message).unwrap();
+    }
 }
 
 fn is_video(path: &PathBuf) -> bool {
