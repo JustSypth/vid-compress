@@ -26,5 +26,5 @@ pub async fn begin(app: AppHandle, path: String, cfg: String, preset: String) {
     let preset = if preset.is_empty() {"slow"} else {&preset}.to_string();
     let path = PathBuf::from(path);
 
-    core::begin(&app, &path, &cfg, &preset);
+    core::begin(&app, &path, &cfg, &preset).await;
 }

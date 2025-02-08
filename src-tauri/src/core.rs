@@ -1,10 +1,15 @@
 use std::path::PathBuf;
-use std::process::Command;
 use tauri::{AppHandle, Emitter};
+use tokio::process::Command;
+use tokio::time::Duration;
+use tokio::time::sleep;
+use tokio::task::JoinHandle;
 
-pub fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &String) {
+const EVENT: &str = "progress";
+
+pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &String) {
     if !is_video(path) {
-        app.emit("progress", "Please enter a valid video file.").unwrap();
+        app.emit(EVENT, "Please enter a valid video file.").unwrap();
         return;
     }
 
@@ -27,20 +32,19 @@ pub fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &String) {
         "-b:a", "128k",
         "-y", &output_path_str,
     ];
-
-    app.emit("progress", "Compressing file...").unwrap();
+    
+    let handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
     println!("Processing file with this command:\nffmpeg {}", execute_arg.join(" "));
-
-    app.emit("progress", "Compressing file...").unwrap();
-    // println!("Processing file with this command:\n{}", &execute_arg);
 
     // Execute the command
     let execute = Command::new("ffmpeg")
         .args(&execute_arg)
         .output()
+        .await
         .expect("Failed to execute ffmpeg.");
 
-
+    handle.abort();
+    
     if execute.status.success() {
         let message = "Video compressed successfully";
         app.emit("progress", message).unwrap();
@@ -62,4 +66,15 @@ fn is_video(path: &PathBuf) -> bool {
     }
 
     false
+}
+
+async fn play_compressing(app: AppHandle) {
+    let frames: [&str; 4] = ["Compressing", "Compressing.", "Compressing..", "Compressing..."];
+    let mut index = 0;
+    
+    loop {
+        app.emit(EVENT, frames[index]).unwrap();
+        index = (index + 1) % frames.len(); //to cycle
+        sleep(Duration::from_millis(500)).await;
+    }
 }
