@@ -26,6 +26,7 @@ async function begin() {
 
 const { listen } = window.__TAURI__.event;
 listen('progress', (event) => {
+    console.log("Event 'progress' triggered");
     const progressbar = document.getElementById('progress');
     progressbar.style.display = "block";
     progressbar.innerHTML = event.payload;

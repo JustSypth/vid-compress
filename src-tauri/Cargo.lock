@@ -4628,7 +4628,7 @@ dependencies = [
 
 [[package]]
 name = "vid-compress"
-version = "0.6.10"
+version = "0.6.11"
 dependencies = [
  "native-dialog",
  "serde",

@@ -9,6 +9,7 @@ const EVENT: &str = "progress";
 
 pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &String) {
     if !is_video(path) {
+        eprint!("No valid video path provided.");
         app.emit(EVENT, "Please enter a valid video file.").unwrap();
         return;
     }
