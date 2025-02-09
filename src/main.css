@@ -1,16 +1,19 @@
 body {
+    -webkit-user-select: none; /* WebKit browsers */
+    user-select: none; /* Standard */
     transform: scale(0.9);  
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #1a1a1a, #2b1c37, #442550); /* Dark gradient */
     margin: 0;
     font-family: Lexend;
     color: rgb(231, 231, 231);
     height: 100vh;
+    border-radius: 12px;
 }
 
 .main {
+    background: linear-gradient(135deg, #1a1a1a, #2b1c37, #442550); /* Dark gradient */
     padding-top: 35px;
     background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent dark background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
