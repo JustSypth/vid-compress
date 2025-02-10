@@ -24,6 +24,15 @@ async function begin() {
     }
 }
 
+const appWindow = window.__TAURI__.window.getCurrentWindow();
+async function app_close() {
+    appWindow.close();
+}
+
+async function app_minimize() {
+    appWindow.minimize();
+}
+
 const { listen } = window.__TAURI__.event;
 listen('progress', (event) => {
     console.log("Event 'progress' triggered");
