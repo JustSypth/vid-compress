@@ -39,8 +39,6 @@ body {
     background-color: transparent;
     border: none;
     color: white;
-    cursor: pointer;
-    -webkit-app-region: no-drag;
 }
 
 .panel-btn {
