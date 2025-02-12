@@ -1,6 +1,6 @@
 [package]
 name = "vid-compress"
-version = "0.7.15"
+version = "0.7.16"
 description = "A GUI tool for compressing videos."
 authors = ["justsypth"]
 edition = "2021"
@@ -23,6 +23,6 @@ tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 native-dialog = "0.7.0"
-tokio = {version = "1.43.0", features = ["full"]}
+tokio = {version = "1.43.0", features = ["full"] }
 tokio-macros = "2.4.0"
 
