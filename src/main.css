@@ -1,27 +1,25 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     -webkit-user-select: none; /* WebKit browsers */
-    user-select: none; /* Standard */
-    transform: scale(0.9);  
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    user-select: none; /* Standard */ 
     margin: 0;
     font-family: Lexend;
     color: rgb(231, 231, 231);
-    height: 100vh;
 }
 
 .main {
     background: linear-gradient(135deg, #1a1a1a, #2b1c37, #442550); /* Dark gradient */
     background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent dark background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-    box-shadow: 3px 4px 8px 2px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 3px 4px 8px 2px rgba(0, 0, 0, 0.3); */
     border-radius: 12px;
-    width: 448px;
-    height: 512px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
 }
 
 .panel {
