@@ -8,6 +8,8 @@ body {
     margin: 0;
     font-family: Lexend;
     color: rgb(231, 231, 231);
+    width: 422px;
+    height: 502px;
 }
 
 .main {
@@ -19,7 +21,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    height: 100%;
 }
 
 .panel {
