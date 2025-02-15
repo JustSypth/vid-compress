@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Binaries
+bin/ffmpeg-linux
+bin/ffmpeg-windows
