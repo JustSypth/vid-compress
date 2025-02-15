@@ -1,3 +1,4 @@
+use std::path::Path;
 use std::path::PathBuf;
 use tauri::{AppHandle, Emitter};
 use tokio::process::Command;
@@ -36,13 +37,15 @@ pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &Strin
     
     let handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
     println!("Processing file with this command:\nffmpeg {}", execute_arg.join(" "));
-
+    
+    let ffmpeg = get_ffmpeg();
+    
     // Execute the command
-    let execute = Command::new("ffmpeg")
+    let execute = Command::new(ffmpeg)
         .args(&execute_arg)
         .output()
         .await
-        .expect("Failed to execute ffmpeg.");
+        .unwrap();
 
     handle.abort();
     
@@ -53,7 +56,7 @@ pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &Strin
     } else {
         let message = format!("Process failed with status: {}", execute.status);
         eprint!("{}", String::from_utf8_lossy(&execute.stderr));
-        app.emit("progress", message).unwrap();
+        app.emit(EVENT, message).unwrap();
     }
 }
 
@@ -67,6 +70,14 @@ fn is_video(path: &PathBuf) -> bool {
     }
 
     false
+}
+
+fn get_ffmpeg() -> PathBuf {
+    if std::env::var("CARGO").is_ok() {
+        return Path::new("../bin").join(if cfg!(windows) { "ffmpeg-windows/bin/ffmpeg.exe" } else { "ffmpeg-linux/ffmpeg" });
+    } else {
+        return Path::new("bin").join(if cfg!(windows) { "ffmpeg.exe" } else { "ffmpeg" });
+    }
 }
 
 async fn play_compressing(app: AppHandle) {
