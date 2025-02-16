@@ -1,7 +1,6 @@
 use std::env;
-use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
-use std::fs::{create_dir_all, set_permissions, Permissions};
+use std::fs::create_dir_all;
 
 fn main() {
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
@@ -33,6 +32,8 @@ fn main() {
 
     #[cfg(unix)]
     {
+        use std::os::unix::fs::PermissionsExt;
+        use std::fs::{set_permissions, Permissions};
         set_permissions(ffmpeg_dest, Permissions::from_mode(0o755)).unwrap();
     }
 
