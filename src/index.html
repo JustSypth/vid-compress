@@ -6,20 +6,24 @@
     <title>Video Compression Tool</title>
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-<body>
 
+<body>
     <div data-tauri-drag-region class="main">
+
       <div data-tauri-drag-region class="panel">
         <button class="panel-btn" style="margin-right: auto;">i</button>
         <button class="panel-btn" onclick="app_minimize()">-</button>
         <button class="panel-btn" onclick="app_close()">X</button>
       </div>
+
       <h1>Video Compressor</h1>
       <div class="horizontal-line"></div>
+      
       <div class="path">
         <input class="textbox" id="path_textbox" type="text" placeholder="Enter video path here...">
         <button class="btn" onclick="get_path()">Select</button>
       </div>
+
       <div class="slider">
         <span class="slider-label">CFG:</span>
         <input type="range" class="slider-input" id="slider" min="0" max="51" step="1" value="32">
@@ -27,6 +31,7 @@
       </div>
 
       <button class="text-button" id="advanced">Advanced <small>▼</small></button>
+
       <div class="path" id="advanced_box" style="display: none; margin-top: 0; gap: 16px;">
         <p style="margin: auto;">Preset:</p>
         <select class="option" id="preset">
@@ -38,11 +43,10 @@
         </select>
       </div>
 
-      <div style="display: flex; flex-direction: column; margin-top: auto; margin-bottom: 25px; justify-content: center; align-items: center; width: 80%;">
+      <div class="progress">
         <p style="text-align: center; display: none;" id="progress">Index</p>
         <button class="btn" onclick="begin()" style="width: 240px; height: 35px;">Start</button>
       </div>
-      
     </div>
     
     <script src="bridge.js"></script>
