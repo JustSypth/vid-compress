@@ -1,5 +1,6 @@
 use std::path::Path;
 use std::path::PathBuf;
+use std::process::Output;
 use tauri::{AppHandle, Emitter};
 use tokio::process::Command;
 use tokio::time::Duration;
@@ -39,13 +40,26 @@ pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &Strin
     println!("Processing file with this command:\nffmpeg {}", execute_arg.join(" "));
     
     let ffmpeg = get_ffmpeg();
-    
-    // Execute the command
-    let execute = Command::new(ffmpeg)
+
+    let execute: Output;
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        execute = Command::new(ffmpeg)
+        .args(&execute_arg)
+        .creation_flags(0x08000000)
+        .output()
+        .await
+        .unwrap();
+    }
+    #[cfg(unix)]
+    {
+        execute = Command::new(ffmpeg)
         .args(&execute_arg)
         .output()
         .await
         .unwrap();
+    }
 
     handle.abort();
     
