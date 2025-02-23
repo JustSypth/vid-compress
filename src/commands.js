@@ -57,7 +57,7 @@ confirmNo.addEventListener('click', () => {
 });
 
 async function app_close() {
-    if (confirmation) {
+    if (confirmation == true) {
         overlay.style.display = "flex";
     } else {
         appWindow.close();
