@@ -7,12 +7,13 @@ use tokio::time::Duration;
 use tokio::time::sleep;
 use tokio::task::JoinHandle;
 
-const EVENT: &str = "progress";
+const PROGRESS: &str = "progress";
+const CONFIRMATION: &str = "confirmation";
 
 pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &String) {
     if !is_video(path) {
         eprint!("No valid video path provided.");
-        app.emit(EVENT, "Please enter a valid video file.").unwrap();
+        app.emit(PROGRESS, "Please enter a valid video file.").unwrap();
         return;
     }
 
@@ -41,6 +42,8 @@ pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &Strin
     
     let ffmpeg = get_ffmpeg();
 
+    app.emit(CONFIRMATION, "true").unwrap();
+
     let execute: Output;
     #[cfg(windows)]
     {
@@ -61,6 +64,7 @@ pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &Strin
         .unwrap();
     }
 
+    app.emit(CONFIRMATION, "false").unwrap();
     handle.abort();
     
     if execute.status.success() {
@@ -70,7 +74,7 @@ pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &Strin
     } else {
         let message = format!("Process failed with status: {}", execute.status);
         eprint!("{}", String::from_utf8_lossy(&execute.stderr));
-        app.emit(EVENT, message).unwrap();
+        app.emit(PROGRESS, message).unwrap();
     }
 }
 
@@ -99,7 +103,7 @@ async fn play_compressing(app: AppHandle) {
     let mut index = 0;
     
     loop {
-        app.emit(EVENT, frames[index]).unwrap();
+        app.emit(PROGRESS, frames[index]).unwrap();
         index = (index + 1) % frames.len(); //to cycle
         sleep(Duration::from_millis(500)).await;
     }

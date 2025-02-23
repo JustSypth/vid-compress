@@ -90,6 +90,7 @@ h1 {
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); 
     background: rgba(0, 0, 0, 0.4); /* Darker button background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
     appearance: none; /* Remove default styling */
@@ -114,6 +115,7 @@ h1 {
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); 
     background: rgba(0, 0, 0, 0.4); /* Darker button background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
 }
@@ -130,6 +132,7 @@ h1 {
     transition: 0.3s;
     text-align: center;
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); 
     background: rgba(0, 0, 0, 0.4); /* Darker button background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -152,6 +155,54 @@ h1 {
     color: white;
     font-size: 18px;
     cursor: pointer;
+}
+
+.pop-up {
+    display: none; /* flex */
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    height: 180px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px); 
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.pop-up_button {
+    width: 120px; 
+    height: 30px; 
+    border-radius: 6px;
+    font-family: 'Exo_2';
+    font-weight: 400;
+    width: 80px;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pop-up_button:hover {
+    background: rgba(255, 255, 255, 0.2); /* Slightly brighter on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Darker shadow on hover */
+}
+.pop-up_button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Darker shadow when clicked */
 }
 
 @font-face {
