@@ -1,7 +1,6 @@
-# Tauri + Vanilla
+# vid-compress
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Javascript.
+### A GUI tool for compressing videos by using FFmpeg.
+### !!! (Work In Process) !!!
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+The project is still being finished. It has basic functionality but it's still not done yet.
