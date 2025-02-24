@@ -1,5 +1,4 @@
 const appWindow = window.__TAURI__.window.getCurrentWindow();
-let confirmation = false;
 
 async function get_path() {
     try {
@@ -38,9 +37,10 @@ async function app_minimize() {
     appWindow.minimize();
 }
 
+let processing = false;
 listen('confirmation', (event) => {
     console.log("Event ", event);
-    confirmation = event.payload;
+    processing = event.payload === "true";
 });
 
 var overlay = document.getElementById('confirmation');
@@ -57,7 +57,7 @@ confirmNo.addEventListener('click', () => {
 });
 
 async function app_close() {
-    if (confirmation == true) {
+    if (confirmation) {
         overlay.style.display = "flex";
     } else {
         appWindow.close();
