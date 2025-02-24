@@ -27,7 +27,7 @@ async function begin() {
 }
 
 const { listen } = window.__TAURI__.event;
-listen('progress', (event) => {
+listen('STATUS', (event) => {
     const progressbar = document.getElementById('progress');
     progressbar.style.display = "block";
     progressbar.innerHTML = event.payload;
@@ -38,7 +38,7 @@ async function app_minimize() {
 }
 
 let processing = false;
-listen('confirmation', (event) => {
+listen('PROCESSING', (event) => {
     console.log("Event ", event);
     processing = event.payload === "true";
 });
@@ -57,7 +57,7 @@ confirmNo.addEventListener('click', () => {
 });
 
 async function app_close() {
-    if (confirmation) {
+    if (processing) {
         overlay.style.display = "flex";
     } else {
         appWindow.close();
