@@ -40,10 +40,9 @@ pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &Strin
     let handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
     println!("Processing file with this command:\nffmpeg {}", execute_arg.join(" "));
     
-    let ffmpeg = get_ffmpeg();
-
     app.emit(PROCESSING, "true").unwrap();
 
+    let ffmpeg = get_ffmpeg();
     let execute: Output;
     #[cfg(windows)]
     {
