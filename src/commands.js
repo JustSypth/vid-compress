@@ -1,4 +1,17 @@
 const appWindow = window.__TAURI__.window.getCurrentWindow();
+const { listen } = window.__TAURI__.event;
+
+let processing = false;
+listen('PROCESSING', (event) => {
+    console.log("Event ", event);
+    processing = event.payload === "true";
+});
+
+listen('STATUS', (event) => {
+    const progressbar = document.getElementById('progress');
+    progressbar.style.display = "block";
+    progressbar.innerHTML = event.payload;
+});
 
 async function get_path() {
     try {
@@ -26,40 +39,15 @@ async function begin() {
     }
 }
 
-const { listen } = window.__TAURI__.event;
-listen('STATUS', (event) => {
-    const progressbar = document.getElementById('progress');
-    progressbar.style.display = "block";
-    progressbar.innerHTML = event.payload;
-});
-
-async function app_minimize() {
-    appWindow.minimize();
-}
-
-let processing = false;
-listen('PROCESSING', (event) => {
-    console.log("Event ", event);
-    processing = event.payload === "true";
-});
-
 var overlay = document.getElementById('confirmation');
-const confirmYes = document.getElementById('confirm-yes');
-const confirmNo = document.getElementById('confirm-no');
-
-confirmYes.addEventListener('click', () => {
-    console.log("Button yes clicked")
-    appWindow.close();
-  });
-  
-confirmNo.addEventListener('click', () => {
-    overlay.style.display = "none";
-});
-
 async function app_close() {
     if (processing) {
         overlay.style.display = "flex";
-    } else {
-        appWindow.close();
+        return;
     }
+    appWindow.close();
+}
+
+async function app_minimize() {
+    appWindow.minimize();
 }
