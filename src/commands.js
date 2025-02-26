@@ -24,13 +24,13 @@ async function get_path() {
 
 async function begin() {
     if (processing) {return;}
-    // var path = document.getElementById('path_textbox');
-    // var cfg = document.getElementById('slider');
-    // var preset = document.getElementById('preset');
+    var path = document.getElementById('path_textbox');
+    var cfg = document.getElementById('slider');
+    var preset = document.getElementById('preset');
 
-    console.log("Path: ", path.value);
-    console.log("Cfg: ", cfg.value);
-    console.log("Preset: ", preset.value);
+    // console.log("Path: ", path.value);
+    // console.log("Cfg: ", cfg.value);
+    // console.log("Preset: ", preset.value);
 
     try {
         await window.__TAURI__.core.invoke('begin', {path: path.value, cfg: cfg.value, preset: preset.value});
