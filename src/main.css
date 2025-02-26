@@ -10,7 +10,7 @@ body {
     height: 100vh;
 }
 .main {
-    background: linear-gradient(155deg, #1a1a1a, #2b1c37, #30214a); /* Dark gradient */
+    background: linear-gradient(#17111d, #28202e, #2f223a); /* Dark gradient */
     background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent dark background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
     /* box-shadow: 3px 4px 8px 2px rgba(0, 0, 0, 0.3); */
@@ -72,7 +72,7 @@ h1 {
     gap: 6px;
 }
 .slider {
-    width: 65%;
+    width: 70%;
     display: flex;
     justify-content: center;
     gap: 6px;
@@ -84,14 +84,14 @@ h1 {
     color: white;
     width: 100px;
     padding-left: 10px;
-    font-size: 18px;
+    font-size: 14px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px); 
-    background: rgba(0, 0, 0, 0.4); /* Darker button background */
+    background: rgba(0, 0, 0, 0.35); /* Darker button background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
     appearance: none; /* Remove default styling */
     -webkit-appearance: none;
@@ -109,14 +109,15 @@ h1 {
 .textbox {
     color: white;
     padding-left: 10px;
-    font-size: 18px;
+    font-size: 14px;
+    width: 210px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px); 
-    background: rgba(0, 0, 0, 0.4); /* Darker button background */
+    background: rgba(0, 0, 0, 0.35); /* Darker button background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
 }
 
@@ -125,7 +126,7 @@ h1 {
     font-weight: 400;
     width: 80px;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 14px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -133,7 +134,7 @@ h1 {
     text-align: center;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px); 
-    background: rgba(0, 0, 0, 0.4); /* Darker button background */
+    background: rgba(0, 0, 0, 0.25); /* Darker button background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

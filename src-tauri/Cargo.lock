@@ -4634,7 +4634,7 @@ dependencies = [
 
 [[package]]
 name = "vid-compress"
-version = "0.9.7"
+version = "0.9.8"
 dependencies = [
  "fs_extra",
  "native-dialog",
