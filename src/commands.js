@@ -23,9 +23,10 @@ async function get_path() {
 }
 
 async function begin() {
-    var path = document.getElementById('path_textbox');
-    var cfg = document.getElementById('slider');
-    var preset = document.getElementById('preset');
+    if (processing) {return;}
+    // var path = document.getElementById('path_textbox');
+    // var cfg = document.getElementById('slider');
+    // var preset = document.getElementById('preset');
 
     console.log("Path: ", path.value);
     console.log("Cfg: ", cfg.value);
