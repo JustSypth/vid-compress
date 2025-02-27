@@ -6,6 +6,7 @@ use tokio::process::Command;
 use tokio::time::Duration;
 use tokio::time::sleep;
 use tokio::task::JoinHandle;
+use colored::Colorize;
 
 const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
@@ -14,10 +15,12 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     let path: PathBuf = PathBuf::from(path);
 
     if !is_video(&path) {
-        eprint!("No valid video path provided.");
+        eprintln!("{}", "Invalid file path provided".red());
         app.emit(STATUS, "Please enter a valid video file.").unwrap();
         return;
     }
+
+    print_debug(&path, &cfg, &preset);
 
     let output_path = path.with_file_name(format!(
             "{}-output.{}",
@@ -40,7 +43,14 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     ];
     
     let handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
-    println!("Processing file with this command:\nffmpeg {}", execute_arg.join(" "));
+
+    let process_command = format!(
+        "{}\n{} {}",
+        "Processing file with this command:".bold(),
+        "ffmpeg".italic(),
+        execute_arg.join(" ").italic()
+    );
+    println!("{process_command}");
     
     app.emit(PROCESSING, "true").unwrap();
 
@@ -69,14 +79,26 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     handle.abort();
     
     if execute.status.success() {
-        let message = "Video compressed successfully";
-        app.emit(STATUS, message).unwrap();
+        let message = format!("{}", "Video compressed successfully".green().bold());
+        app.emit(STATUS, &message).unwrap();
         println!("{message}")
     } else {
         let message = format!("Process failed with status: {}", execute.status);
         eprint!("{}", String::from_utf8_lossy(&execute.stderr));
         app.emit(STATUS, message).unwrap();
     }
+}
+
+fn print_debug(path: &PathBuf, cfg: &String, preset: &String) {
+    let debug_message = format!(
+        "{} Path: {} CFG: {} Preset: {}",
+        "DEBUG:".bold(),
+        path.to_string_lossy().to_string(),
+        cfg,
+        preset
+    );
+
+    println!("{}", debug_message.blue());
 }
 
 fn is_video(path: &PathBuf) -> bool {

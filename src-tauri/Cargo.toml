@@ -1,6 +1,6 @@
 [package]
 name = "vid-compress"
-version = "0.9.10"
+version = "0.10.0"
 description = "A GUI tool for compressing videos."
 authors = ["justsypth"]
 edition = "2021"
@@ -26,3 +26,4 @@ serde_json = "1"
 native-dialog = "0.7.0"
 tokio = {version = "1.43.0", features = ["full"] }
 tokio-macros = "2.4.0"
+colored = "3.0.0"
