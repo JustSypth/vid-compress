@@ -40,9 +40,9 @@ async function begin() {
     }
 }
 
-var overlay = document.getElementById('confirmation');
 async function app_close() {
     if (processing) {
+        var overlay = document.getElementById('confirmation');
         overlay.style.display = "flex";
         return;
     }
