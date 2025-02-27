@@ -10,8 +10,10 @@ use tokio::task::JoinHandle;
 const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
 
-pub async fn begin(app: &AppHandle, path: &PathBuf, cfg: &String, preset: &String) {
-    if !is_video(path) {
+pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String) {
+    let path: PathBuf = PathBuf::from(path);
+
+    if !is_video(&path) {
         eprint!("No valid video path provided.");
         app.emit(STATUS, "Please enter a valid video file.").unwrap();
         return;
