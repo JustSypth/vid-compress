@@ -16,7 +16,7 @@ listen('STATUS', (event) => {
 async function get_path() {
     try {
         const response = await window.__TAURI__.core.invoke('get_path');
-        document.getElementById('path_textbox').value = response;
+        console.log(response);
     } catch (error) {
         console.log("get_path(): Error: ", error);
     }

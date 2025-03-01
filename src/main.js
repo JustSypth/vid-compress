@@ -1,7 +1,18 @@
+const invoke = window.__TAURI__.core.invoke;
+
+const main = document.getElementById("main");
 const slider = document.getElementById("slider");
 const output = document.getElementById("slider-value");
 const advanced = document.getElementById("advanced");
 const advancedBox = document.getElementById("advanced_box");
+
+// Update window borders based on OS
+let osPromise = invoke('get_os');
+osPromise.then((os) => {
+    if (os == "windows") {
+        main.style.borderRadius = 0;
+    }
+});
 
 // Update slider value display
 slider.addEventListener("input", () => {

@@ -1,6 +1,12 @@
+use std::env;
 use crate::core;
 use native_dialog::FileDialog;
 use tauri::AppHandle;
+
+#[tauri::command]
+pub async fn get_os() -> String {
+    env::consts::OS.to_string()
+}
 
 #[tauri::command]
 pub async fn get_path() -> Result<String, String> {
