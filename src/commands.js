@@ -17,6 +17,8 @@ async function get_path() {
     try {
         const response = await window.__TAURI__.core.invoke('get_path');
         console.log(response);
+        let path = document.getElementById('path_textbox');
+        path.value = response;
     } catch (error) {
         console.log("get_path(): Error: ", error);
     }
@@ -42,8 +44,9 @@ async function begin() {
 
 async function app_close() {
     if (processing) {
+        console.log("Pressed X");
         var overlay = document.getElementById('confirmation');
-        overlay.style.display = "flex";
+        overlay.classList.add('active');
         return;
     }
     appWindow.close();

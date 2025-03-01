@@ -159,12 +159,12 @@ h1 {
 }
 
 .pop-up {
-    display: none; /* flex */
+    display: flex;
     flex-direction: column;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    /* transform: translate(-50%, -50%); */
     width: 360px;
     height: 180px;
     backdrop-filter: blur(24px);
@@ -178,6 +178,14 @@ h1 {
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.pop-up.active {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
 }
 
 .pop-up_button {
