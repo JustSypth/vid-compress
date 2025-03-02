@@ -129,6 +129,7 @@ h1 {
     font-size: 14px;
     border: none;
     border-radius: 8px;
+    padding: 8px;
     cursor: pointer;
     transition: 0.3s;
     text-align: center;
@@ -158,8 +159,37 @@ h1 {
     cursor: pointer;
 }
 
+.info {
+    padding-top: 32px;
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 52%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
+    width: 360px;
+    height: 450px;
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px); 
+    background: rgba(17, 13, 31, 0.656);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.info.active {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+}
+
 .pop-up {
-    display: flex;
+    display: none;
     flex-direction: column;
     position: fixed;
     top: 50%;
@@ -179,15 +209,13 @@ h1 {
     justify-content: center;
     z-index: 1000;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
+    transform: translate(-50%, -50%) scale(0.9);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
-
 .pop-up.active {
     opacity: 1 !important;
     transform: translate(-50%, -50%) scale(1) !important;
 }
-
 .pop-up_button {
     width: 120px; 
     height: 30px; 

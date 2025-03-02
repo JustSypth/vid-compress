@@ -46,7 +46,29 @@ async function app_close() {
     if (processing) {
         console.log("Pressed X");
         var overlay = document.getElementById('confirmation');
-        overlay.classList.add('active');
+        let isOpen = overlay.classList.contains('active');
+
+        if (isOpen) {
+            overlay.addEventListener('transitionend', () => {
+                overlay.style.display = "none";
+            }, { once: true });
+    
+            overlay.classList.remove('active');
+        } else {
+            overlay.style.display = "flex";
+            void overlay.offsetHeight;
+            overlay.classList.add('active');
+            
+            // Close about overlay if its on
+            let about = document.getElementById('info');
+            if (about.classList.contains('active')) {
+                about.addEventListener('transitionend', () => {
+                    about.style.display = "none";
+                }, { once: true });
+        
+                about.classList.remove('active');
+            }
+        }
         return;
     }
     appWindow.close();
@@ -54,4 +76,27 @@ async function app_close() {
 
 async function app_minimize() {
     appWindow.minimize();
+}
+
+async function toggle_info() {
+    let overlay = document.getElementById('info');
+    let isOpen = overlay.classList.contains('active');
+
+    if (isOpen) {
+        overlay.addEventListener('transitionend', () => {
+            overlay.style.display = "none";
+        }, { once: true });
+
+        overlay.classList.remove('active');
+    } else {
+        overlay.style.display = "flex";
+        void overlay.offsetHeight;
+        overlay.classList.add('active');
+    }
+}
+async function open_sypth() {
+    console.log("Sypth.xyz opening..")
+}
+async function open_github() {
+    console.log("Github opening..");
 }

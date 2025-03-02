@@ -36,5 +36,10 @@ confirmYes.addEventListener('click', () => {
 
 confirmNo.addEventListener('click', () => {
     var overlay = document.getElementById('confirmation');
+
+    overlay.addEventListener('transitionend', () => {
+        overlay.style.display = "none";
+    }, { once: true });
+
     overlay.classList.remove('active');
 });
