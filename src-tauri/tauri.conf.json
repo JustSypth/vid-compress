@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Video Compress",
+  "productName": "vid-compress",
   "version": "0.11.0",
   "identifier": "xyz.sypth.vid-compress",
   "build": {
