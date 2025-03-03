@@ -1,19 +1,25 @@
-const invoke = window.__TAURI__.core.invoke;
-
 const main = document.getElementById("main");
 const slider = document.getElementById("slider");
 const output = document.getElementById("slider-value");
 const advanced = document.getElementById("advanced");
 const advancedBox = document.getElementById("advanced_box");
 const confirmYes = document.getElementById('confirm-yes');
-const confirmNo = document.getElementById('confirm-no')
+const confirmNo = document.getElementById('confirm-no');
+const versionText = document.getElementById('version');
 
 // Update window borders based on OS
-let osPromise = invoke('get_os');
+let osPromise = window.__TAURI__.core.invoke('get_os');
 osPromise.then((os) => {
     if (os == "windows") {
         main.style.borderRadius = 0;
     }
+});
+
+// Update version value in info overlay
+let versionPromise = window.__TAURI__.core.invoke('get_version');
+versionPromise.then((version) => {
+    console.log("Version: " + version);
+    versionText.innerHTML = "v"+version;
 });
 
 // Update slider value display

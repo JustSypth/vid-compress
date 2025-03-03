@@ -53,12 +53,12 @@
     <div class="info" id="info">
       <img src="icon.png" style="width: 85px;">
       <h2 style="margin-bottom: 2px; font-family: 'Lexend'; font-weight: 500; padding-left: 12px; padding-right: 12px; font-size: 20px;">vid-compress</h2>
-      <p style="margin: 0px; font-size: 14px;">v0.0.0</p>
+      <p id="version" style="margin: 0px; font-size: 14px;">v0.0.0</p>
       <div style="margin: 20px;"></div>
       <div style="display: flex; flex-direction: column; gap: 8px">
         <a onclick="open_sypth()" class="btn" style="width: 240px; height: 35px;">Website <img src="new_tab.png" style="width: 12px;"></a>
         <a onclick="open_github()" class="btn" style="width: 240px; height: 35px;">Source Code <img src="new_tab.png" style="width: 12px;"></a>
-        <a class="btn" style="width: 240px; height: 35px;">Documentation</a>
+        <a onclick="toggle_documentation()" class="btn" style="width: 240px; height: 35px;">Documentation</a>
       </div>
       <p style="margin-top: auto; margin-bottom: 20px; font-family: 'Exo_2'; font-size: 12px;">Made by @justsypth on GitHub</p>
     </div>
@@ -70,7 +70,18 @@
         <button class="pop-up_button" id="confirm-yes">Yes</button>
         <button class="pop-up_button" id="confirm-no">No</button>
       </div>
-  </div>
+    </div>
+
+    <div id="documentation" class="info documentation" data-tauri-drag-region>
+      <div data-tauri-drag-region class="panel" style="margin-bottom: 12px; justify-content: end; padding-right: 0px !important;">
+          <button class="panel-btn" onclick="toggle_documentation()">X</button>
+      </div>
+
+      <div style="overflow: auto; font-family: Arial, Helvetica, sans-serif; padding: 12px; padding-top: 0px;">
+        <h2>Guide</h2>
+        <p>Documentation is not yet done so say hi to the placeholder.</p>
+      </div>
+    </div>
 
     <script src="commands.js"></script>
     <script src="main.js"></script>

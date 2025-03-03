@@ -1,6 +1,5 @@
 const appWindow = window.__TAURI__.window.getCurrentWindow();
 const { listen } = window.__TAURI__.event;
-const invoke = window.__TAURI__.core.invoke;
 
 let processing = false;
 listen('PROCESSING', (event) => {
@@ -16,7 +15,7 @@ listen('STATUS', (event) => {
 
 async function get_path() {
     try {
-        const response = await invoke('get_path');
+        const response = await window.__TAURI__.core.invoke('get_path');
         console.log(response);
         let path = document.getElementById('path_textbox');
         path.value = response;
@@ -36,7 +35,7 @@ async function begin() {
     // console.log("Preset: ", preset.value);
 
     try {
-        await invoke('begin', {path: path.value, cfg: cfg.value, preset: preset.value});
+        await window.__TAURI__.core.invoke('begin', {path: path.value, cfg: cfg.value, preset: preset.value});
         console.log('begin(): Succesfully called the backend');
     } catch (error) {
         console.error('begin(): Error calling backend:', error);
@@ -98,10 +97,33 @@ async function toggle_info() {
 async function open_sypth() {
     console.log("Sypth.xyz opening..");
     let url = "https://sypth.xyz/";
-    invoke("open_url", {url});
+    window.__TAURI__.core.invoke("open_url", {url});
 }
 async function open_github() {
     console.log("Github opening..");
     let url = "https://github.com/JustSypth/vid-compress";
-    invoke("open_url", {url});
+    window.__TAURI__.core.invoke("open_url", {url});
+}
+
+async function toggle_documentation() {
+    let parent = document.getElementById('info');
+    let overlay = document.getElementById('documentation');
+    let isOpen = overlay.classList.contains('active');
+
+    if (isOpen) {
+        overlay.addEventListener('transitionend', () => {
+            overlay.style.display = "none";
+        }, { once: true });
+
+        overlay.classList.remove('active');
+    } else {
+        overlay.style.display = "flex";
+        void overlay.offsetHeight;
+        overlay.classList.add('active');
+
+        overlay.addEventListener('transitionend', () => {
+            console.log("Transition end");
+            toggle_info();
+        }, { once: true });
+    }
 }

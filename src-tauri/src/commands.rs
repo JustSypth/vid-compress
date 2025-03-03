@@ -10,6 +10,11 @@ pub async fn get_os() -> String {
 }
 
 #[tauri::command]
+pub async fn get_version() -> String {
+    env::var("CARGO_PKG_VERSION").unwrap()
+}
+
+#[tauri::command]
 pub async fn open_url(url: String) {
     webbrowser::open(&url).unwrap_or_else(|e| eprintln!("Couldn't open url: {}", e));
 }
