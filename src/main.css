@@ -62,6 +62,8 @@ h1 {
     background-color: rgba(255, 255, 255, 0.1); /* Color of the line */
     margin: 20px 0; /* Optional spacing around the line */
 }
+
+
 .path {
     margin-top: 25px;
     margin-bottom: 25px;
@@ -69,8 +71,32 @@ h1 {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 6px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
+.vertical-line {
+    width: 2px;
+}
+.path-btn {
+    font-family: 'Exo_2';
+    font-weight: 400;
+    width: 80px;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 0px;
+    cursor: pointer;
+    text-align: center;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); 
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0);
+    transition: background-color 0.2s ease;
+}
+.path-btn:active {
+    background-color: rgba(88, 88, 88, 0.25);
+}
+
 .slider {
     width: 70%;
     display: flex;
@@ -79,6 +105,17 @@ h1 {
 }
 .slider-input {
     width: 100%;
+}
+
+
+.option-div {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
 }
 .option {
     color: white;
@@ -96,6 +133,8 @@ h1 {
     appearance: none; /* Remove default styling */
     -webkit-appearance: none;
 }
+
+
 .progress {
     display: flex;
     flex-direction: column;
@@ -120,14 +159,12 @@ h1 {
     background: rgba(0, 0, 0, 0.35); /* Darker button background */
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
 }
-
 .btn {
     font-family: 'Exo_2';
     font-weight: 400;
     width: 80px;
     color: #ffffff;
     font-size: 14px;
-    border: none;
     border-radius: 8px;
     padding: 8px;
     cursor: pointer;
@@ -147,7 +184,6 @@ h1 {
     transform: scale(0.95);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Darker shadow when clicked */
 }
-
 .text-button {
     font-family: 'Exo_2';
     margin-top: 25px;
@@ -158,6 +194,7 @@ h1 {
     font-size: 18px;
     cursor: pointer;
 }
+
 
 .info {
     padding-top: 32px;
@@ -247,6 +284,7 @@ h1 {
     transform: scale(0.95);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Darker shadow when clicked */
 }
+
 
 @font-face {
     font-family: 'Lexend';
