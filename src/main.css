@@ -1,19 +1,20 @@
 * {
     box-sizing: border-box;
 }
+
 body {
-    -webkit-user-select: none; /* WebKit browsers */
-    user-select: none; /* Standard */ 
+    -webkit-user-select: none;
+    user-select: none;
     margin: 0;
     font-family: Lexend;
     color: rgb(231, 231, 231);
     height: 100vh;
 }
+
 .main {
     background: linear-gradient(#17111d, #28202e, #2f223a);
     background-color: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    /* box-shadow: 3px 4px 8px 2px rgba(0, 0, 0, 0.3); */
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -21,38 +22,33 @@ body {
     height: 100vh;
 }
 
-
-.panel {
+.panel,
+.panel-doc {
     display: flex;
     flex-direction: row;
+    font-family: 'Lexend';
+    font-weight: 900;
+    font-size: 19px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.panel {
     justify-content: baseline;
     width: 96%;
     margin-left: 12px;
     margin-right: 12px;
-    margin-top: 8px;
-    margin-bottom: 12px;
-    font-family: 'Lexend';
-    font-weight: 900; /* Corrected from font: 900; */
-    font-size: 19px;
-    background-color: transparent;
-    border: none;
-    color: white;
 }
+
 .panel-doc {
-    display: flex;
-    flex-direction: row;
     justify-content: end;
     margin-left: auto;
     margin-right: 6px;
-    margin-top: 8px;
-    margin-bottom: 12px;
-    font-family: 'Lexend';
-    font-weight: 900; /* Corrected from font: 900; */
-    font-size: 19px;
-    background-color: transparent;
-    border: none;
-    color: white;
 }
+
 .panel-btn {
     background-color: transparent;
     font-family: 'Lexend';
@@ -69,19 +65,18 @@ h1 {
     font-family: 'Days_one';
     font-size: 28px;
     font-weight: 300;
-    margin: 0px;
-}
-.horizontal-line {
-    width: 80%; /* Make the line span the entire width */
-    height: 2px; /* Thickness */
-    background-color: rgba(255, 255, 255, 0.1); /* Color of the line */
-    margin: 20px 0; /* Optional spacing around the line */
+    margin: 0;
 }
 
+.horizontal-line {
+    width: 80%;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 20px 0;
+}
 
 .path {
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin: 25px 0;
     height: 35px;
     display: flex;
     flex-direction: row;
@@ -90,24 +85,27 @@ h1 {
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .vertical-line {
     width: 2px;
 }
+
 .path-btn {
     font-family: 'Exo_2';
     font-weight: 400;
     width: 80px;
     color: #ffffff;
     font-size: 14px;
-    padding: 0px;
+    padding: 0;
     cursor: pointer;
     text-align: center;
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);
     background: rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0);
     transition: background-color 0.2s ease;
 }
+
 .path-btn:active {
     background-color: rgba(88, 88, 88, 0.25);
 }
@@ -118,20 +116,20 @@ h1 {
     justify-content: center;
     gap: 6px;
 }
+
 .slider-input {
     width: 100%;
 }
 
-
 .option-div {
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin: 25px 0;
     height: 35px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 6px;
 }
+
 .option {
     color: white;
     width: 100px;
@@ -142,13 +140,12 @@ h1 {
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); 
-    background: rgba(0, 0, 0, 0.35); /* Darker button background */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-    appearance: none; /* Remove default styling */
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    appearance: none;
     -webkit-appearance: none;
 }
-
 
 .progress {
     display: flex;
@@ -170,10 +167,11 @@ h1 {
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); 
-    background: rgba(0, 0, 0, 0.35); /* Darker button background */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .btn {
     font-family: 'Exo_2';
     font-weight: 400;
@@ -186,23 +184,25 @@ h1 {
     transition: 0.3s;
     text-align: center;
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); 
-    background: rgba(0, 0, 0, 0.25); /* Darker button background */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .btn:hover {
-    background: rgba(255, 255, 255, 0.2); /* Slightly brighter on hover */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Darker shadow on hover */
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
 }
+
 .btn:active {
     transform: scale(0.95);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Darker shadow when clicked */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
+
 .text-button {
     font-family: 'Exo_2';
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin: 25px 0;
     background: none;
     border: none;
     color: white;
@@ -210,20 +210,16 @@ h1 {
     cursor: pointer;
 }
 
-
-.info {
-    padding-top: 32px;
+.info,
+.pop-up {
     display: none;
     flex-direction: column;
     position: fixed;
-    top: 52%;
+    top: 50%;
     left: 50%;
-    /* transform: translate(-50%, -50%); */
     width: 360px;
-    height: 450px;
-    max-height: 450px;
     backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px); 
+    -webkit-backdrop-filter: blur(32px);
     background: rgba(17, 13, 31, 0.656);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -231,52 +227,40 @@ h1 {
     z-index: 1000;
     text-align: center;
     align-items: center;
-    z-index: 1000;
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.95);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
-.info.active {
+
+.info {
+    height: 450px;
+    max-height: 450px;
+    padding-top: 32px;
+}
+
+.info.active,
+.pop-up.active {
     opacity: 1 !important;
     transform: translate(-50%, -50%) scale(1) !important;
 }
+
 .info.documentation {
-    padding-top: 0px;
+    padding-top: 0;
     text-align: start;
     align-items: start;
 }
 
 .pop-up {
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    /* transform: translate(-50%, -50%); */
-    width: 360px;
     height: 180px;
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px); 
     background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    text-align: center;
-    align-items: center;
     justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
 }
-.pop-up.active {
-    opacity: 1 !important;
-    transform: translate(-50%, -50%) scale(1) !important;
-}
+
 .pop-up_button {
-    width: 120px; 
-    height: 30px; 
+    width: 120px;
+    height: 30px;
     border-radius: 6px;
     font-family: 'Exo_2';
     font-weight: 400;
@@ -291,15 +275,16 @@ h1 {
     background-color: rgba(0, 0, 0, 0.25);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .pop-up_button:hover {
-    background: rgba(255, 255, 255, 0.2); /* Slightly brighter on hover */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Darker shadow on hover */
-}
-.pop-up_button:active {
-    transform: scale(0.95);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Darker shadow when clicked */
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
 }
 
+.pop-up_button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
 
 @font-face {
     font-family: 'Lexend';
