@@ -79,6 +79,7 @@ h1 {
     margin: 25px 0;
     height: 35px;
     display: flex;
+    width: 80%;
     flex-direction: row;
     justify-content: center;
     border-radius: 8px;
@@ -93,7 +94,7 @@ h1 {
 .path-btn {
     font-family: 'Exo_2';
     font-weight: 400;
-    width: 80px;
+    width: 25%;
     color: #ffffff;
     font-size: 14px;
     padding: 0;
@@ -158,18 +159,18 @@ h1 {
 }
 
 .textbox {
+    width: 75%;
     color: white;
     padding-left: 10px;
     font-size: 14px;
-    width: 210px;
     border: none;
-    border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 0px; 
+    border: 0px;
 }
 
 .btn {
@@ -233,9 +234,11 @@ h1 {
 }
 
 .info {
+    margin-top: 12px;
     height: 450px;
     max-height: 450px;
     padding-top: 32px;
+    padding-bottom: 4px;
 }
 
 .info.active,
