@@ -78,13 +78,18 @@ async function app_minimize() {
     appWindow.minimize();
 }
 
+let debounce = false;
 async function toggle_info() {
     let overlay = document.getElementById('info');
     let isOpen = overlay.classList.contains('active');
+    
+    if (debounce) { console.log("debounce"); return }
+    debounce = true;
 
     if (isOpen) {
         overlay.addEventListener('transitionend', () => {
             overlay.style.display = "none";
+            debounce = false;
         }, { once: true });
 
         overlay.classList.remove('active');
@@ -92,6 +97,7 @@ async function toggle_info() {
         overlay.style.display = "flex";
         void overlay.offsetHeight;
         overlay.classList.add('active');
+        debounce = false;
     }
 }
 async function open_sypth() {
