@@ -1,7 +1,9 @@
 use std::path::Path;
 use std::path::PathBuf;
-use std::process::Output;
+use std::process::Stdio;
 use tauri::{AppHandle, Emitter};
+use tokio::io::AsyncReadExt;
+use tokio::process::Child;
 use tokio::process::Command;
 use tokio::time::Duration;
 use tokio::time::sleep;
@@ -60,37 +62,41 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     let animation_handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
 
     let ffmpeg = get_ffmpeg();
-    let execute: Output;
+    let mut child: Child;
     #[cfg(windows)]
     {
         use std::os::windows::process::CommandExt;
-        execute = Command::new(ffmpeg)
+        child = Command::new(ffmpeg)
         .args(&execute_arg)
         .creation_flags(0x08000000)
-        .output()
-        .await
+        .stderr(Stdio::piped())
+        .spawn()
         .unwrap();
     }
     #[cfg(unix)]
     {
-        execute = Command::new(ffmpeg)
+        child = Command::new(ffmpeg)
         .args(&execute_arg)
-        .output()
-        .await
+        .stderr(Stdio::piped())
+        .spawn()
         .unwrap();
     }
+
+    let status = child.wait().await.unwrap();
+    let mut stderr = String::from("");
+    child.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
 
     app.emit(PROCESSING, "false").unwrap();
     animation_handle.abort();
     
-    if execute.status.success() {
+    if status.success() {
         let message = "Video compressed successfully";
         app.emit(STATUS, &message).unwrap();
         let message = format!("{}", message.green().bold());
         println!("{message}")
     } else {
-        let message = format!("Process failed with status: {}", execute.status);
-        eprint!("{}", String::from_utf8_lossy(&execute.stderr));
+        let message = format!("Process failed with status: {}", &status);
+        eprint!("{}", &stderr);
         app.emit(STATUS, message).unwrap();
     }
 }
