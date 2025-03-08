@@ -4643,7 +4643,7 @@ dependencies = [
 
 [[package]]
 name = "vid-compress"
-version = "0.12.3"
+version = "0.12.4"
 dependencies = [
  "colored",
  "fs_extra",

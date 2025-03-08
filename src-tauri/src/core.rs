@@ -79,8 +79,9 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     handle.abort();
     
     if execute.status.success() {
-        let message = format!("{}", "Video compressed successfully".green().bold());
+        let message = "Video compressed successfully";
         app.emit(STATUS, &message).unwrap();
+        let message = format!("{}", message.green().bold());
         println!("{message}")
     } else {
         let message = format!("Process failed with status: {}", execute.status);
