@@ -29,13 +29,12 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     );
     println!("{}", debug_message.blue());
 
+    let input_path = path.display().to_string();
     let output_path = path.with_file_name(format!(
             "{}-output.{}",
             path.file_stem().unwrap().to_str().unwrap(),
             path.extension().unwrap().to_str().unwrap()
         ));
-
-    let input_path = path.display().to_string();
     let crf_value = cfg.to_string();
     let output_path_str = output_path.display().to_string();
 
@@ -49,17 +48,16 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         "-y", &output_path_str,
     ];
     
-    let handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
-
-    let process_command = format!(
+    let process_message = format!(
         "{}\n{} {}",
         "Processing file with this command:".bold(),
         "ffmpeg".italic(),
         execute_arg.join(" ").italic()
     );
-    println!("{process_command}");
-    
+    println!("{process_message}");
+
     app.emit(PROCESSING, "true").unwrap();
+    let animation_handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
 
     let ffmpeg = get_ffmpeg();
     let execute: Output;
@@ -83,7 +81,7 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     }
 
     app.emit(PROCESSING, "false").unwrap();
-    handle.abort();
+    animation_handle.abort();
     
     if execute.status.success() {
         let message = "Video compressed successfully";
