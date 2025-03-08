@@ -20,7 +20,14 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         return;
     }
 
-    print_debug(&path, &cfg, &preset);
+    let debug_message = format!(
+        "{} Path: {} CFG: {} Preset: {}",
+        "DEBUG:".bold(),
+        path.to_string_lossy().to_string(),
+        cfg,
+        preset
+    );
+    println!("{}", debug_message.blue());
 
     let output_path = path.with_file_name(format!(
             "{}-output.{}",
@@ -88,18 +95,6 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         eprint!("{}", String::from_utf8_lossy(&execute.stderr));
         app.emit(STATUS, message).unwrap();
     }
-}
-
-fn print_debug(path: &PathBuf, cfg: &String, preset: &String) {
-    let debug_message = format!(
-        "{} Path: {} CFG: {} Preset: {}",
-        "DEBUG:".bold(),
-        path.to_string_lossy().to_string(),
-        cfg,
-        preset
-    );
-
-    println!("{}", debug_message.blue());
 }
 
 fn is_video(path: &PathBuf) -> bool {
