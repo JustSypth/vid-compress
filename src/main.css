@@ -77,12 +77,12 @@ h1 {
 
 .path {
     margin: 25px 0;
-    height: 35px;
+    height: 32px;
     display: flex;
-    width: 80%;
+    width: 85%;
     flex-direction: row;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 5px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -97,7 +97,6 @@ h1 {
     width: 25%;
     color: #ffffff;
     font-size: 14px;
-    padding: 0;
     cursor: pointer;
     text-align: center;
     backdrop-filter: blur(15px);
@@ -106,19 +105,23 @@ h1 {
     border: 1px solid rgba(255, 255, 255, 0);
     transition: background-color 0.2s ease;
 }
-
 .path-btn:active {
     background-color: rgba(88, 88, 88, 0.25);
 }
 
 .slider {
-    width: 70%;
+    margin-top: 12px;
+    margin-bottom: 0px;
+    width: 80%;
     display: flex;
     justify-content: center;
     gap: 6px;
 }
+.slider-label {
+    font-weight: 300;
+}
 
-.slider-input {
+input {
     width: 100%;
 }
 
@@ -149,19 +152,43 @@ h1 {
 }
 
 .progress {
+    font-family: 'Roboto';
     display: flex;
     flex-direction: column;
     margin-top: auto;
-    margin-bottom: 25px;
+    /* margin-bottom: 25px; */
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 100%;
+}
+.progress-btn {
+    font-family: 'Exo_2';
+    font-weight: 400;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.25);
+    width: 100% !important;
+    height: 36px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-radius: 8px;
+    border: 0 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transition: background-color 0.2s ease;
+}
+.progress-btn:active {
+    background-color: rgba(88, 88, 88, 0.25);
 }
 
 .textbox {
     width: 75%;
     color: white;
     padding-left: 10px;
+    padding-top: 2px;
     font-size: 14px;
     border: none;
     cursor: pointer;
@@ -287,6 +314,11 @@ h1 {
 .pop-up_button:active {
     transform: scale(0.95);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url("fonts/Roboto/Roboto-VariableFont_wdth\,wght.ttf");
 }
 
 @font-face {
