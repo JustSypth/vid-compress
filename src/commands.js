@@ -100,6 +100,7 @@ async function toggle_info() {
         debounce = false;
     }
 }
+
 async function open_sypth() {
     console.log("Sypth.xyz opening..");
     let url = "https://sypth.xyz/";
