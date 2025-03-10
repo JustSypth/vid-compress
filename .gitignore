@@ -26,3 +26,6 @@ dist-ssr
 # Binaries
 bin/ffmpeg-linux
 bin/ffmpeg-windows
+
+# Other
+todo.txt
