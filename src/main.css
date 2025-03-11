@@ -82,13 +82,14 @@ h1 {
     width: 85%;
     flex-direction: row;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 8px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .vertical-line {
-    width: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    width: 1px;
 }
 
 .path-btn {
@@ -127,20 +128,21 @@ input {
 
 .option-div {
     margin: 25px 0;
+    margin-top: 0px;
     height: 35px;
-    display: flex;
+    display: none;
     flex-direction: row;
     justify-content: center;
-    gap: 6px;
+    gap: 16px;
 }
 
 .option {
     color: white;
-    width: 100px;
+    width: 140px;
     padding-left: 10px;
     font-size: 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(15px);
@@ -156,7 +158,6 @@ input {
     display: flex;
     flex-direction: column;
     margin-top: auto;
-    /* margin-bottom: 25px; */
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -175,7 +176,7 @@ input {
     height: 36px;
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
-    border-radius: 8px;
+    border-radius: 6px;
     border: 0 !important;
     border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
     transition: background-color 0.2s ease;
@@ -234,7 +235,8 @@ input {
     background: none;
     border: none;
     color: white;
-    font-size: 18px;
+    font-weight: 320;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -261,7 +263,7 @@ input {
 }
 
 .info {
-    margin-top: 12px;
+    margin-top: 6px;
     height: 450px;
     max-height: 450px;
     padding-top: 32px;
@@ -281,39 +283,30 @@ input {
 }
 
 .pop-up {
-    height: 180px;
+    height: 160px;
     background: rgba(0, 0, 0, 0.4);
     justify-content: center;
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
 }
 
-.pop-up_button {
-    width: 120px;
+.pop-up-btn {
+    width: 50%;
     height: 30px;
-    border-radius: 6px;
     font-family: 'Exo_2';
     font-weight: 400;
-    width: 80px;
     color: #ffffff;
     font-size: 16px;
     border: none;
     cursor: pointer;
     transition: 0.3s;
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
-.pop-up_button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
-}
-
-.pop-up_button:active {
-    transform: scale(0.95);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+.pop-up-btn:active {
+    background-color: rgba(88, 88, 88, 0.25);
 }
 
 @font-face {

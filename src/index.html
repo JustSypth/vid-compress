@@ -22,7 +22,7 @@
       <div class="path">
         <input class="textbox" id="path_textbox" type="text" placeholder="Enter video path here...">
         <div class="vertical-line"></div>
-        <button class="path-btn" onclick="get_path()">Select</button>
+        <button class="path-btn"onclick="get_path()">Select</button>
       </div>
 
       <div class="slider">
@@ -33,8 +33,8 @@
 
       <button class="text-button" id="advanced">Advanced <small>▼</small></button>
 
-      <div class="option-div" id="advanced_box" style="display: none; margin-top: 0; gap: 16px;">
-        <p style="margin: auto; font-family: 'Exo_2';">Preset:</p>
+      <div class="option-div" id="advanced_box">
+        <p style="margin: auto; font-family: 'Exo_2'; font-weight: 350;">Preset:</p>
         <select class="option" id="preset">
           <option value="slow">slow</option>
           <option value="ultrafast">ultrafast</option>
@@ -65,11 +65,13 @@
     </div>
 
     <div id="confirmation" class="pop-up">
-      <h2 style="margin-bottom: 0px; font-family: 'Lexend'; font-weight: 500; padding-left: 12px; padding-right: 12px; font-size: 20px;">The program is still compressing</h2>
-      <p style="margin: 8px; font-size: 14px;">Do you want to exit anyway?</p>
-      <div style="display: flex; margin: 12px; gap: 6px;">
-        <button class="pop-up_button" id="confirm-yes">Yes</button>
-        <button class="pop-up_button" id="confirm-no">No</button>
+      <!-- <h2 style="margin-bottom: 0px; font-family: 'Lexend'; font-weight: 500; padding-left: 12px; padding-right: 12px; font-size: 20px;">Are you sure you want to quit?</h2> -->
+      <p style="margin: 8px; margin-bottom: 0; font-size: 18px; font-weight: 400;">Are you sure you want to quit?</p>
+      <p style="margin: 8px; margin-top: 2px; font-size: 14px; font-weight: 300;">The program is still compressing.</p>
+      <div class="path" style="display: flex; margin: 12px; width: 75%;">
+        <button class="pop-up-btn" id="confirm-yes">Yes</button>
+        <div class="vertical-line"></div>
+        <button class="pop-up-btn" id="confirm-no">No</button>
       </div>
     </div>
 
