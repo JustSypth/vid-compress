@@ -82,6 +82,10 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         .unwrap();
     }
 
+    // let main_pid = std::process::id();
+    // let child_pid = child.id().expect("Failure getting child pid!");
+    // let _watchdog: JoinHandle<()> = tokio::spawn(watchdog::start_watchdog(main_pid, child_pid));
+
     let status = child.wait().await.unwrap();
     let mut stderr = String::from("");
     child.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
@@ -96,7 +100,7 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         println!("{message}")
     } else {
         let message = format!("Process failed with status: {}", &status);
-        eprint!("{}", &stderr);
+        // eprint!("{}", &stderr);
         app.emit(STATUS, message).unwrap();
     }
 }
