@@ -10,7 +10,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "Video Compression Tool",
+        "title": "vid-compress",
         "resizable": false,
         "decorations": false,
         "transparent": true,
