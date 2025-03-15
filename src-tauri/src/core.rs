@@ -136,7 +136,7 @@ fn is_video(path: &PathBuf) -> bool {
 
 fn get_ffmpeg() -> PathBuf {
     if std::env::var("CARGO").is_ok() {
-        return Path::new("../bin").join(if cfg!(windows) { "ffmpeg-windows/bin/ffmpeg.exe" } else { "ffmpeg-linux/ffmpeg" });
+        return Path::new("../bin").join(if cfg!(windows) { "ffmpeg.exe" } else { "ffmpeg" });
     } else {
         return Path::new("bin").join(if cfg!(windows) { "ffmpeg.exe" } else { "ffmpeg" });
     }
@@ -144,9 +144,9 @@ fn get_ffmpeg() -> PathBuf {
 
 fn get_watchdog() -> PathBuf {
     if std::env::var("CARGO").is_ok() {
-        return Path::new("../bin").join(if cfg!(windows) { "watchdog.exe" } else { "watchdog" });
+        return Path::new("../bin").join(if cfg!(windows) { "vid-compress-watchdog.exe" } else { "vid-compress-watchdog" });
     } else {
-        return Path::new("bin").join(if cfg!(windows) { "watchdog.exe" } else { "watchdog" });
+        return Path::new("bin").join(if cfg!(windows) { "vid-compress-watchdog.exe" } else { "vid-compress-watchdog" });
     }
 }
 
