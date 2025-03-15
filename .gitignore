@@ -24,8 +24,8 @@ dist-ssr
 *.sw?
 
 # Binaries
-bin/ffmpeg-linux
-bin/ffmpeg-windows
+bin/*
+!bin/README.txt
 
 # Other
 todo.txt
