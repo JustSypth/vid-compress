@@ -14,6 +14,8 @@ const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
 
 pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String) {
+    app.emit(PROCESSING, "true").unwrap();
+
     let path: PathBuf = PathBuf::from(path);
 
     if !is_video(&path) {
@@ -58,9 +60,8 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     );
     println!("{process_message}");
 
-    app.emit(PROCESSING, "true").unwrap();
     let animation_handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
-
+    
     let ffmpeg = get_binary("ffmpeg");
     let mut child_ffmpeg: Child;
     #[cfg(windows)]
@@ -102,13 +103,12 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         .spawn()
         .unwrap();
     }
-
+    
     let status = child_ffmpeg.wait().await.unwrap();
     let mut stderr = String::from("");
     child_ffmpeg.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
 
     child_watchdog.kill().await.unwrap_or_else(|e| eprintln!("{} {e}", "Could not kill watchdog:".red().bold()));
-    app.emit(PROCESSING, "false").unwrap();
     animation_handle.abort();
     
     if status.success() {
@@ -121,6 +121,8 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         // eprint!("{}", &stderr);
         app.emit(STATUS, message).unwrap();
     }
+
+    app.emit(PROCESSING, "false").unwrap();
 }
 
 fn is_video(path: &PathBuf) -> bool {
