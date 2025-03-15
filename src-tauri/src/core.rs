@@ -83,13 +83,13 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     }
 
     let watchdog = get_binary("vid-compress-watchdog");
-    let _child_watchdog: Child;
+    let mut child_watchdog: Child;
     let main_pid = std::process::id();
     let ffmpeg_pid = child_ffmpeg.id().expect("Failure getting child pid!");
     #[cfg(windows)]
     {
         use std::os::windows::process::CommandExt;
-        _child_watchdog = Command::new(watchdog)
+        child_watchdog = Command::new(watchdog)
         .args([main_pid.to_string(), child_pid.to_string()])
         .creation_flags(0x08000000)
         .spawn()
@@ -97,7 +97,7 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     }
     #[cfg(unix)]
     {
-        _child_watchdog = Command::new(watchdog)
+        child_watchdog = Command::new(watchdog)
         .args([main_pid.to_string(), ffmpeg_pid.to_string()])
         .spawn()
         .unwrap();
@@ -107,6 +107,7 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     let mut stderr = String::from("");
     child_ffmpeg.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
 
+    child_watchdog.kill().await.unwrap_or_else(|e| eprintln!("{} {e}", "Could not kill watchdog:".red().bold()));
     app.emit(PROCESSING, "false").unwrap();
     animation_handle.abort();
     
