@@ -3,13 +3,10 @@ use std::thread::sleep;
 use std::time::Duration;
 
 pub fn start_watchdog(main_pid: u32, child_pid: u32) {
-    let watchdog_pid = std::process::id();
-    println!("Watchdog pid: {watchdog_pid} \nFFmpeg pid: {child_pid}\nMain pid: {main_pid}");
-
     loop {
         if !is_running(main_pid) {
-            println!("Killing ffmpeg..");
             kill_pid(child_pid).unwrap();
+            std::process::exit(0);
         }
 
         sleep(Duration::from_secs(1));
@@ -27,7 +24,18 @@ fn kill_pid(pid: u32) -> Result<(), String> {
             Err(e) => Err(format!("Couldn't kill process: {}", e))
         }
     }
+    #[cfg(windows)] {
+        use std::os::windows::process::CommandExt;
+        let output = Command::new("taskkill")
+        .args(["/FI", &format!("PID eq {}", pid.to_string())])
+        .creation_flags(0x08000000)
+        .output();
 
+        match output {
+            Ok(_) => todo!(),
+            Err(e) => Err(format!("Couldn't kill process: {}", e)),
+        }
+    }
 }
 
 fn is_running(pid: u32) -> bool {
@@ -44,12 +52,12 @@ fn is_running(pid: u32) -> bool {
     #[cfg(windows)] // ew windows
     {
         use std::os::windows::process::CommandExt;
-        output = Command::new("tasklist")
-        .args(["/FI", format!("PID eq {}", pid)])
+        let output = Command::new("tasklist")
+        .args(["/FI", &format!("PID eq {}", pid.to_string())])
         .creation_flags(0x08000000)
         .output()
-        .await.unwrap();
+        .unwrap();
 
-        output.status.success();
+        output.status.success()
     }
 }

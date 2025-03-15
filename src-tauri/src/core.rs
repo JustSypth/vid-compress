@@ -62,11 +62,11 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     let animation_handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
 
     let ffmpeg = get_ffmpeg();
-    let mut child: Child;
+    let mut child_ffmpeg: Child;
     #[cfg(windows)]
     {
         use std::os::windows::process::CommandExt;
-        child = Command::new(ffmpeg)
+        child_ffmpeg = Command::new(ffmpeg)
         .args(&execute_arg)
         .creation_flags(0x08000000)
         .stderr(Stdio::piped())
@@ -75,20 +75,37 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     }
     #[cfg(unix)]
     {
-        child = Command::new(ffmpeg)
+        child_ffmpeg = Command::new(ffmpeg)
         .args(&execute_arg)
         .stderr(Stdio::piped())
         .spawn()
         .unwrap();
     }
 
-    // let main_pid = std::process::id();
-    // let child_pid = child.id().expect("Failure getting child pid!");
-    // let _watchdog: JoinHandle<()> = tokio::spawn(watchdog::start_watchdog(main_pid, child_pid));
+    let watchdog = get_watchdog();
+    let _child_watchdog: Child;
+    let main_pid = std::process::id();
+    let ffmpeg_pid = child_ffmpeg.id().expect("Failure getting child pid!");
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        _child_watchdog = Command::new(watchdog)
+        .args([main_pid.to_string(), child_pid.to_string()])
+        .creation_flags(0x08000000)
+        .spawn()
+        .unwrap();
+    }
+    #[cfg(unix)]
+    {
+        _child_watchdog = Command::new(watchdog)
+        .args([main_pid.to_string(), ffmpeg_pid.to_string()])
+        .spawn()
+        .unwrap();
+    }
 
-    let status = child.wait().await.unwrap();
+    let status = child_ffmpeg.wait().await.unwrap();
     let mut stderr = String::from("");
-    child.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
+    child_ffmpeg.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
 
     app.emit(PROCESSING, "false").unwrap();
     animation_handle.abort();
@@ -122,6 +139,14 @@ fn get_ffmpeg() -> PathBuf {
         return Path::new("../bin").join(if cfg!(windows) { "ffmpeg-windows/bin/ffmpeg.exe" } else { "ffmpeg-linux/ffmpeg" });
     } else {
         return Path::new("bin").join(if cfg!(windows) { "ffmpeg.exe" } else { "ffmpeg" });
+    }
+}
+
+fn get_watchdog() -> PathBuf {
+    if std::env::var("CARGO").is_ok() {
+        return Path::new("../bin").join(if cfg!(windows) { "watchdog.exe" } else { "watchdog" });
+    } else {
+        return Path::new("bin").join(if cfg!(windows) { "watchdog.exe" } else { "watchdog" });
     }
 }
 
