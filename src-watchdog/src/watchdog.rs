@@ -6,7 +6,7 @@ pub fn start_watchdog(main_pid: u32, child_pid: u32) {
     loop {
         if !is_running(main_pid) {
             kill_pid(child_pid).unwrap();
-            std::process::exit(0);
+            break;
         }
 
         sleep(Duration::from_secs(1));
