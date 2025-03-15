@@ -1,6 +1,6 @@
 [package]
 name = "vid-compress"
-version = "0.14.0"
+version = "0.14.1"
 description = "Video Compressor"
 authors = ["justsypth"]
 edition = "2021"

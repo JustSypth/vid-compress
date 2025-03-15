@@ -61,7 +61,7 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
     app.emit(PROCESSING, "true").unwrap();
     let animation_handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
 
-    let ffmpeg = get_ffmpeg();
+    let ffmpeg = get_binary("ffmpeg");
     let mut child_ffmpeg: Child;
     #[cfg(windows)]
     {
@@ -82,7 +82,7 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         .unwrap();
     }
 
-    let watchdog = get_watchdog();
+    let watchdog = get_binary("vid-compress-watchdog");
     let _child_watchdog: Child;
     let main_pid = std::process::id();
     let ffmpeg_pid = child_ffmpeg.id().expect("Failure getting child pid!");
@@ -134,19 +134,11 @@ fn is_video(path: &PathBuf) -> bool {
     false
 }
 
-fn get_ffmpeg() -> PathBuf {
+fn get_binary(binary_name: &str) -> PathBuf {
     if std::env::var("CARGO").is_ok() {
-        return Path::new("../bin").join(if cfg!(windows) { "ffmpeg.exe" } else { "ffmpeg" });
+        return Path::new("../bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
     } else {
-        return Path::new("bin").join(if cfg!(windows) { "ffmpeg.exe" } else { "ffmpeg" });
-    }
-}
-
-fn get_watchdog() -> PathBuf {
-    if std::env::var("CARGO").is_ok() {
-        return Path::new("../bin").join(if cfg!(windows) { "vid-compress-watchdog.exe" } else { "vid-compress-watchdog" });
-    } else {
-        return Path::new("bin").join(if cfg!(windows) { "vid-compress-watchdog.exe" } else { "vid-compress-watchdog" });
+        return Path::new("bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
     }
 }
 
