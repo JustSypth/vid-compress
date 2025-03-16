@@ -83,10 +83,11 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         .unwrap();
     }
 
-    let watchdog = get_binary("vid-compress-watchdog");
-    let mut child_watchdog: Child;
     let main_pid = std::process::id();
     let ffmpeg_pid = child_ffmpeg.id().expect("Failure getting child pid!");
+
+    let watchdog = get_binary("vid-compress-watchdog");
+    let mut child_watchdog: Child;
     #[cfg(windows)]
     {
         use std::os::windows::process::CommandExt;
@@ -103,7 +104,9 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         .spawn()
         .unwrap();
     }
-    
+
+    child_watchdog.try_wait().expect("Couldn't wait for watchdog");
+
     let status = child_ffmpeg.wait().await.unwrap();
     let mut stderr = String::from("");
     child_ffmpeg.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
