@@ -9,9 +9,10 @@ fn main() {
 
 fn move_binaries(binaries: &[&str]) {
     for bin in binaries {
+        println!("cargo:warning={bin}");
         let out_dir = env::var("PROFILE").unwrap();
     
-        let bin_src = Path::new("..").join("bin").join(if cfg!(windows) { "ffmpeg.exe" } else { "ffmpeg" });
+        let bin_src = Path::new("..").join("bin").join(if cfg!(windows) { format!("{bin}.exe") } else { format!("{bin}") });
         let bin_dest = Path::new("target").join(&out_dir).join("bin");
         
         if !bin_src.exists() {
