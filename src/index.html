@@ -75,14 +75,26 @@
       </div>
     </div>
 
-    <div id="documentation" class="info documentation" data-tauri-drag-region>
-      <div data-tauri-drag-region class="panel-doc" style="margin-bottom: 12px; justify-content: end;">
+    <div id="documentation" class="info documentation" data-tauri-drag-region style="flex-direction: column; align-items: center;">
+      <div data-tauri-drag-region class="panel-doc" style="margin-bottom: 8px; margin-top: 8px; justify-content: end;">
           <button class="panel-btn" onclick="toggle_documentation()">X</button>
       </div>
 
-      <div style="overflow: auto; font-family: Arial, Helvetica, sans-serif; padding: 12px; padding-top: 0px;">
-        <h2 style="margin-top: 0px;">Guide</h2>
-        <p>Documentation is not yet done so say hi to the placeholder.</p>
+      <div class="horizontal-line" style="margin: 0px; width: 95%;"></div>
+
+      <div style="overflow: auto; font-family: 'Exo_2'; padding: 12px; padding-top: 12px;">
+        <h2 style="margin-top: 0px; margin-bottom: 20px; font-weight: 450; font-family: 'Lexend';">Documentation:</h2>
+
+        <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">CFG (Constant Rate Factor)</h4>  
+        <p style="margin-top: 8px;">
+          Sets video quality. <br> Lower values output higher quality and larger file sizes. Higher values output lower quality and smaller file sizes.
+        </p>
+
+        <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">Preset</h4>  
+        <p style="margin-top: 8px;">
+          Controls the speed of video encoding. (ultrafast, veryfast, medium, slow, veryslow) <br>
+          Slower presets produce better quality and smaller file sizes. Faster presets are quicker but result in larger files with lower quality.
+        </p>
       </div>
     </div>
 
