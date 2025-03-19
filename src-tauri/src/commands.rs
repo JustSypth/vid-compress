@@ -10,8 +10,8 @@ pub async fn get_os() -> String {
 }
 
 #[tauri::command]
-pub async fn get_version() -> String {
-    env::var("CARGO_PKG_VERSION").unwrap()
+pub async fn get_version() -> &'static str {
+    env!("CARGO_PKG_VERSION")
 }
 
 #[tauri::command]
