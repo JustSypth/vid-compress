@@ -21,6 +21,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     if !is_video(&path) {
         eprintln!("{}", "Invalid file path provided".red());
         app.emit(STATUS, "Please enter a valid video file.").unwrap();
+        app.emit(PROCESSING, "false").unwrap();
         return;
     }
 
@@ -41,15 +42,6 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         "-b:a", "128k",
         "-y", &output_path_str,
     ];
-    
-    let debug_message = format!(
-        "{} Path: {} CFG: {} Preset: {}",
-        "DEBUG:".bold(),
-        path.to_string_lossy().to_string(),
-        crf,
-        preset
-    );
-    println!("{}", debug_message.blue());
 
     let process_message = format!(
         "{}\n{} {}",
