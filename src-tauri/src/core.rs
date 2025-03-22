@@ -24,15 +24,6 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         return;
     }
 
-    let debug_message = format!(
-        "{} Path: {} CFG: {} Preset: {}",
-        "DEBUG:".bold(),
-        path.to_string_lossy().to_string(),
-        cfg,
-        preset
-    );
-    println!("{}", debug_message.blue());
-
     let input_path = path.display().to_string();
     let output_path = path.with_file_name(format!(
             "{}-output.{}",
@@ -52,6 +43,15 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         "-y", &output_path_str,
     ];
     
+    let debug_message = format!(
+        "{} Path: {} CFG: {} Preset: {}",
+        "DEBUG:".bold(),
+        path.to_string_lossy().to_string(),
+        cfg,
+        preset
+    );
+    println!("{}", debug_message.blue());
+
     let process_message = format!(
         "{}\n{} {}",
         "Processing file with this command:".bold(),
@@ -104,8 +104,6 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         .spawn()
         .unwrap();
     }
-
-    child_watchdog.try_wait().expect("Couldn't wait for watchdog");
 
     let status = child_ffmpeg.wait().await.unwrap();
     let mut stderr = String::from("");
