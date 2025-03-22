@@ -83,7 +83,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     {
         use std::os::windows::process::CommandExt;
         child_watchdog = Command::new(watchdog)
-        .args([main_pid.to_string(), child_pid.to_string()])
+        .args([main_pid.to_string(), ffmpeg_pid.to_string()])
         .creation_flags(0x08000000)
         .spawn()
         .unwrap();
