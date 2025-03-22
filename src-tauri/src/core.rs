@@ -13,7 +13,7 @@ use colored::Colorize;
 const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
 
-pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String) {
+pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String) {
     app.emit(PROCESSING, "true").unwrap();
 
     let path: PathBuf = PathBuf::from(path);
@@ -30,13 +30,12 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
             path.file_stem().unwrap().to_str().unwrap(),
             path.extension().unwrap().to_str().unwrap()
         ));
-    let crf_value = cfg.to_string();
-    let output_path_str = output_path.display().to_string();
 
+    let output_path_str = output_path.display().to_string();
     let execute_arg = vec![
         "-i", &input_path,
         "-vcodec", "libx264",
-        "-crf", &crf_value,
+        "-crf", &crf,
         "-preset", &preset,
         "-acodec", "aac",
         "-b:a", "128k",
@@ -47,7 +46,7 @@ pub async fn begin(app: &AppHandle, path: &String, cfg: &String, preset: &String
         "{} Path: {} CFG: {} Preset: {}",
         "DEBUG:".bold(),
         path.to_string_lossy().to_string(),
-        cfg,
+        crf,
         preset
     );
     println!("{}", debug_message.blue());
