@@ -118,11 +118,13 @@ async function open_sypth() {
     console.log("Sypth.xyz opening..");
     let url = "https://sypth.xyz/";
     window.__TAURI__.core.invoke("open_url", {url});
+    toggle_info();
 }
 async function open_github() {
     console.log("Github opening..");
     let url = "https://github.com/JustSypth/vid-compress";
     window.__TAURI__.core.invoke("open_url", {url});
+    toggle_info();
 }
 
 async function toggle_documentation() {
