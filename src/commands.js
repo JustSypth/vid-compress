@@ -5,6 +5,10 @@ let processing = false;
 listen('PROCESSING', (event) => {
     console.log("Event ", event);
     processing = event.payload === "true";
+
+    if (processing === false) {
+        close_confirmation();
+    }
 });
 
 listen('STATUS', (event) => {
@@ -83,6 +87,21 @@ async function app_close() {
         return;
     }
     appWindow.close();
+}
+async function close_confirmation() {
+    var base = document.getElementById('confirmation-base');
+    var overlay = document.getElementById('confirmation');
+    let isOpen = overlay.classList.contains('active');
+
+    if (isOpen) {
+        overlay.addEventListener('transitionend', () => {
+            overlay.style.display = "none";
+            base.style.display = "none";
+        }, { once: true });
+        
+        overlay.classList.remove('active');
+        base.classList.remove('active');
+    }
 }
 
 async function app_minimize() {
