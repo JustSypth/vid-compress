@@ -8,4 +8,5 @@ I recommend waiting for the first release.
 
 ##
 
-**Supported codecs:** libx264, libx265
+**Supported codecs:** libx264  
+(Might add libx265 later)
