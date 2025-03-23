@@ -65,17 +65,6 @@
       </div>
     </div>
 
-    <div id="confirmation" class="pop-up">
-      <!-- <h2 style="margin-bottom: 0px; font-family: 'Lexend'; font-weight: 500; padding-left: 12px; padding-right: 12px; font-size: 20px;">Are you sure you want to quit?</h2> -->
-      <p style="margin: 8px; margin-bottom: 0; font-size: 18px; font-weight: 400;">Are you sure you want to quit?</p>
-      <p style="margin: 8px; margin-top: 2px; font-size: 14px; font-weight: 300;">The program is still compressing.</p>
-      <div class="path" style="display: flex; margin: 12px; width: 75%;">
-        <button class="pop-up-btn" id="confirm-yes">Yes</button>
-        <div class="vertical-line"></div>
-        <button class="pop-up-btn" id="confirm-no">No</button>
-      </div>
-    </div>
-
     <div class="overlay" id="documentation-base">
       <div id="documentation" class="info documentation" data-tauri-drag-region style="flex-direction: column; align-items: center;">
         <div data-tauri-drag-region class="panel-doc" style="margin-bottom: 8px; margin-top: 8px; justify-content: end;">
@@ -97,6 +86,18 @@
             Controls the speed of video encoding. (ultrafast, veryfast, medium, slow, veryslow) <br>
             Slower presets produce better quality and smaller file sizes. Faster presets are quicker but result in larger files with lower quality.
           </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="confirmation-base">
+      <div id="confirmation" class="pop-up">
+        <p style="margin: 8px; margin-bottom: 0; font-size: 18px; font-weight: 400;">Are you sure you want to quit?</p>
+        <p style="margin: 8px; margin-top: 2px; font-size: 14px; font-weight: 300;">The program is still compressing.</p>
+        <div class="path" style="display: flex; margin: 12px; width: 75%;">
+          <button class="pop-up-btn" id="confirm-yes">Yes</button>
+          <div class="vertical-line"></div>
+          <button class="pop-up-btn" id="confirm-no">No</button>
         </div>
       </div>
     </div>

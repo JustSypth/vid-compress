@@ -44,30 +44,41 @@ async function begin() {
 
 async function app_close() {
     if (processing) {
-        console.log("Pressed X");
+        var base = document.getElementById('confirmation-base');
         var overlay = document.getElementById('confirmation');
+        var confirmYes = document.getElementById('confirm-yes');
+        var confirmNo = document.getElementById('confirm-no');
         let isOpen = overlay.classList.contains('active');
 
         if (isOpen) {
             overlay.addEventListener('transitionend', () => {
                 overlay.style.display = "none";
+                base.style.display = "none";
             }, { once: true });
-    
+            
             overlay.classList.remove('active');
+            base.classList.remove('active');
         } else {
+            base.style.display = "flex";
             overlay.style.display = "flex";
             void overlay.offsetHeight;
+            base.classList.add('active');
             overlay.classList.add('active');
+
+            confirmYes.addEventListener('click', () => {
+                appWindow.close()
+            });
+            confirmNo.addEventListener('click', () => {
+                var overlay = document.getElementById('confirmation');
             
-            // Close about overlay if its on
-            let about = document.getElementById('info');
-            if (about.classList.contains('active')) {
-                about.addEventListener('transitionend', () => {
-                    about.style.display = "none";
+                overlay.addEventListener('transitionend', () => {
+                    overlay.style.display = "none";
+                    base.style.display = "none";
                 }, { once: true });
-        
-                about.classList.remove('active');
-            }
+            
+                overlay.classList.remove('active');
+                base.classList.remove('active');
+            });
         }
         return;
     }

@@ -3,8 +3,6 @@ const slider = document.getElementById("slider");
 const output = document.getElementById("slider-value");
 const advanced = document.getElementById("advanced");
 const advancedBox = document.getElementById("advanced_box");
-const confirmYes = document.getElementById('confirm-yes');
-const confirmNo = document.getElementById('confirm-no');
 const versionText = document.getElementById('version');
 
 // Update window borders based on OS
@@ -33,19 +31,4 @@ advanced.addEventListener("click", () => {
     
     advancedBox.style.display = isOpen ? "none" : "flex";
     advanced.innerHTML = `Advanced <small>${isOpen ? "▼" : "▲"}</small>`;
-});
-
-// Confirmation window
-confirmYes.addEventListener('click', () => {
-    appWindow.close()
-});
-
-confirmNo.addEventListener('click', () => {
-    var overlay = document.getElementById('confirmation');
-
-    overlay.addEventListener('transitionend', () => {
-        overlay.style.display = "none";
-    }, { once: true });
-
-    overlay.classList.remove('active');
 });
