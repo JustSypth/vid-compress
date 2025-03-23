@@ -50,18 +50,19 @@
       </div>
     </div>
     
-
-    <div class="info" id="info">
-      <img src="icon.png" style="width: 85px;">
-      <h2 style="margin-bottom: 2px; font-family: 'Lexend'; font-weight: 500; padding-left: 12px; padding-right: 12px; font-size: 20px;">vid-compress</h2>
-      <p id="version" style="margin: 0px; font-size: 14px;">v0.0.0</p>
-      <div style="margin: 20px;"></div>
-      <div style="display: flex; flex-direction: column; gap: 8px">
-        <a onclick="open_sypth()" class="btn" style="width: 240px; height: 35px;">Website <img src="new_tab.png" style="width: 12px;"></a>
-        <a onclick="open_github()" class="btn" style="width: 240px; height: 35px;">Source Code <img src="new_tab.png" style="width: 12px;"></a>
-        <a onclick="toggle_documentation()" class="btn" style="width: 240px; height: 35px;">Documentation</a>
+    <div class="overlay" id="info-base">
+      <div class="info" id="info">
+        <img src="icon.png" style="width: 85px;">
+        <h2 style="margin-bottom: 2px; font-family: 'Lexend'; font-weight: 500; padding-left: 12px; padding-right: 12px; font-size: 20px;">vid-compress</h2>
+        <p id="version" style="margin: 0px; font-size: 14px;">v0.0.0</p>
+        <div style="margin: 20px;"></div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <a onclick="open_sypth()" class="btn" style="width: 240px; height: 35px;">Website <img src="new_tab.png" style="width: 12px;"></a>
+          <a onclick="open_github()" class="btn" style="width: 240px; height: 35px;">Source Code <img src="new_tab.png" style="width: 12px;"></a>
+          <a onclick="toggle_documentation()" class="btn" style="width: 240px; height: 35px;">Documentation</a>
+        </div>
+        <p style="margin-top: auto; font-family: 'Exo_2'; font-size: 12px;">Made by @justsypth on GitHub</p>
       </div>
-      <p style="margin-top: auto; font-family: 'Exo_2'; font-size: 12px;">Made by @justsypth on GitHub</p>
     </div>
 
     <div id="confirmation" class="pop-up">
@@ -75,26 +76,28 @@
       </div>
     </div>
 
-    <div id="documentation" class="info documentation" data-tauri-drag-region style="flex-direction: column; align-items: center;">
-      <div data-tauri-drag-region class="panel-doc" style="margin-bottom: 8px; margin-top: 8px; justify-content: end;">
-          <button class="panel-btn" onclick="toggle_documentation()">X</button>
-      </div>
+    <div class="overlay" id="documentation-base">
+      <div id="documentation" class="info documentation" data-tauri-drag-region style="flex-direction: column; align-items: center;">
+        <div data-tauri-drag-region class="panel-doc" style="margin-bottom: 8px; margin-top: 8px; justify-content: end;">
+            <button class="panel-btn" onclick="toggle_documentation()">X</button>
+        </div>
 
-      <div class="horizontal-line" style="margin: 0px; width: 95%;"></div>
+        <div class="horizontal-line" style="margin: 0px; width: 95%;"></div>
 
-      <div style="overflow: auto; font-family: 'Exo_2'; padding: 12px; padding-top: 12px;">
-        <h2 style="margin-top: 0px; margin-bottom: 20px; font-weight: 450; font-family: 'Lexend';">Documentation:</h2>
+        <div style="overflow: auto; font-family: 'Exo_2'; padding: 12px; padding-top: 12px;">
+          <h2 style="margin-top: 0px; margin-bottom: 20px; font-weight: 450; font-family: 'Lexend';">Documentation:</h2>
 
-        <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">CRF (Constant Rate Factor)</h4>  
-        <p style="margin-top: 8px;">
-          Sets video quality. <br> Lower values output higher quality and larger file sizes. Higher values output lower quality and smaller file sizes.
-        </p>
+          <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">CRF (Constant Rate Factor)</h4>  
+          <p style="margin-top: 8px;">
+            Sets video quality. <br> Lower values output higher quality and larger file sizes. Higher values output lower quality and smaller file sizes.
+          </p>
 
-        <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">Preset</h4>  
-        <p style="margin-top: 8px;">
-          Controls the speed of video encoding. (ultrafast, veryfast, medium, slow, veryslow) <br>
-          Slower presets produce better quality and smaller file sizes. Faster presets are quicker but result in larger files with lower quality.
-        </p>
+          <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">Preset</h4>  
+          <p style="margin-top: 8px;">
+            Controls the speed of video encoding. (ultrafast, veryfast, medium, slow, veryslow) <br>
+            Slower presets produce better quality and smaller file sizes. Faster presets are quicker but result in larger files with lower quality.
+          </p>
+        </div>
       </div>
     </div>
 

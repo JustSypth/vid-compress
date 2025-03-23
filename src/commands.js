@@ -80,6 +80,7 @@ async function app_minimize() {
 
 let debounce = false;
 async function toggle_info() {
+    let base = document.getElementById('info-base');
     let overlay = document.getElementById('info');
     let isOpen = overlay.classList.contains('active');
     
@@ -89,17 +90,29 @@ async function toggle_info() {
     if (isOpen) {
         overlay.addEventListener('transitionend', () => {
             overlay.style.display = "none";
+            base.style.display = "none";
             debounce = false;
         }, { once: true });
 
         overlay.classList.remove('active');
+        base.classList.remove('active');
     } else {
+        base.style.display = "flex";
         overlay.style.display = "flex";
+        
         void overlay.offsetHeight;
+
+        base.classList.add('active');
         overlay.classList.add('active');
+        
         debounce = false;
     }
 }
+document.getElementById('info-base').addEventListener('click', function(e) {
+    if (e.target === this) {
+        toggle_info();
+    }
+});
 
 async function open_sypth() {
     console.log("Sypth.xyz opening..");
@@ -113,24 +126,35 @@ async function open_github() {
 }
 
 async function toggle_documentation() {
-    let parent = document.getElementById('info');
+    let base = document.getElementById('documentation-base');
     let overlay = document.getElementById('documentation');
     let isOpen = overlay.classList.contains('active');
 
     if (isOpen) {
         overlay.addEventListener('transitionend', () => {
             overlay.style.display = "none";
+            base.style.display = "none";
         }, { once: true });
 
         overlay.classList.remove('active');
+        base.classList.remove('active');
     } else {
+        base.style.display = "flex";
         overlay.style.display = "flex";
+
         void overlay.offsetHeight;
+        
         overlay.classList.add('active');
 
         overlay.addEventListener('transitionend', () => {
             console.log("Transition end");
             toggle_info();
+            base.classList.add('active');
         }, { once: true });
     }
 }
+document.getElementById('documentation-base').addEventListener('click', function(e) {
+    if (e.target === this) {
+        toggle_documentation();
+    }
+});
