@@ -22,6 +22,92 @@ body {
     height: 100vh;
 }
 
+.overlay {
+    border-radius: 8px;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.0);
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+.overlay.active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.info,
+.pop-up {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 360px;
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    background: rgba(17, 13, 31, 0.656);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+    align-items: center;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.info {
+    margin-top: 6px;
+    height: 450px;
+    max-height: 450px;
+    padding-top: 32px;
+    padding-bottom: 4px;
+}
+
+.info.active,
+.pop-up.active {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+}
+
+.info.documentation {
+    padding-top: 0;
+    text-align: start;
+    align-items: start;
+}
+
+.pop-up {
+    height: 160px;
+    background: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.pop-up-btn {
+    width: 50%;
+    height: 30px;
+    font-family: 'Exo_2';
+    font-weight: 400;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.25);
+    transition: background-color 0.2s ease;
+}
+
+.pop-up-btn:active {
+    background-color: rgba(88, 88, 88, 0.25);
+}
+
 .panel,
 .panel-doc {
     display: flex;
@@ -238,92 +324,6 @@ input {
     font-weight: 320;
     font-size: 16px;
     cursor: pointer;
-}
-
-.overlay {
-    border-radius: 8px;
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.0);
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.2s ease;
-}
-.overlay.active {
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.info,
-.pop-up {
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 360px;
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
-    background: rgba(17, 13, 31, 0.656);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    text-align: center;
-    align-items: center;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.95);
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.info {
-    margin-top: 6px;
-    height: 450px;
-    max-height: 450px;
-    padding-top: 32px;
-    padding-bottom: 4px;
-}
-
-.info.active,
-.pop-up.active {
-    opacity: 1 !important;
-    transform: translate(-50%, -50%) scale(1) !important;
-}
-
-.info.documentation {
-    padding-top: 0;
-    text-align: start;
-    align-items: start;
-}
-
-.pop-up {
-    height: 160px;
-    background: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-}
-
-.pop-up-btn {
-    width: 50%;
-    height: 30px;
-    font-family: 'Exo_2';
-    font-weight: 400;
-    color: #ffffff;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.25);
-    transition: background-color 0.2s ease;
-}
-
-.pop-up-btn:active {
-    background-color: rgba(88, 88, 88, 0.25);
 }
 
 @font-face {
