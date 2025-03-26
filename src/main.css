@@ -241,6 +241,7 @@ input {
 }
 
 .overlay {
+    border-radius: 8px;
     display: none;
     position: fixed;
     top: 0;
