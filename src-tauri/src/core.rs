@@ -9,12 +9,16 @@ use tokio::time::Duration;
 use tokio::time::sleep;
 use tokio::task::JoinHandle;
 use colored::Colorize;
+use regex::Regex;
 
 const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
 
 pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String) {
     app.emit(PROCESSING, "true").unwrap();
+
+    let ffmpeg = get_binary("ffmpeg");
+    let watchdog = get_binary("vid-compress-watchdog");
 
     let path: PathBuf = PathBuf::from(path);
 
@@ -24,6 +28,9 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         app.emit(PROCESSING, "false").unwrap();
         return;
     }
+
+    let codec = get_codec(&ffmpeg, &path).await;
+    println!("{}", format!("Codec: {codec}").red().bold());
 
     let input_path = path.display().to_string();
     let output_path = path.with_file_name(format!(
@@ -53,7 +60,6 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
 
     let animation_handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
     
-    let ffmpeg = get_binary("ffmpeg");
     let mut child_ffmpeg: Child;
     #[cfg(windows)]
     {
@@ -77,7 +83,6 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     let main_pid = std::process::id();
     let ffmpeg_pid = child_ffmpeg.id().expect("Failure getting child pid!");
 
-    let watchdog = get_binary("vid-compress-watchdog");
     let mut child_watchdog: Child;
     #[cfg(windows)]
     {
@@ -135,6 +140,30 @@ fn get_binary(binary_name: &str) -> PathBuf {
     } else {
         return Path::new("bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
     }
+}
+
+async fn get_codec(ffmpeg: &PathBuf, video: &PathBuf) -> String {
+    let mut child;
+    #[cfg(unix)] {
+        child = Command::new(ffmpeg)
+        .args(["ffmpeg", "-i", &video.display().to_string()])
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    }
+
+    child.wait().await.unwrap();
+    let mut stderr = String::from("");
+    child.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
+
+    let video_codec = Regex::new(r"Video: ([^ ,]+)")
+        .unwrap()
+        .captures(&stderr)
+        .and_then(|cap| cap.get(1))
+        .map(|m| m.as_str())
+        .unwrap();
+
+    video_codec.to_string()
 }
 
 async fn play_compressing(app: AppHandle) {
