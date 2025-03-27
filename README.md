@@ -9,4 +9,4 @@ I recommend waiting for the first release.
 
 ##
 
-**Supported codecs:** libx264, libx265
+**Supported codecs:** H.264, H.265
