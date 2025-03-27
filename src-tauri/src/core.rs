@@ -29,7 +29,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         return;
     }
 
-    let codec = get_codec(&ffmpeg, &path).await;
+    let codec = get_codec(&ffmpeg, &path).await.unwrap();
     println!("{}", format!("Codec: {codec}").red().bold());
 
     let input_path = path.display().to_string();
@@ -42,7 +42,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     let output_path_str = output_path.display().to_string();
     let execute_arg = vec![
         "-i", &input_path,
-        "-vcodec", "libx264",
+        "-vcodec", &codec,
         "-crf", &crf,
         "-preset", &preset,
         "-acodec", "aac",
@@ -142,7 +142,9 @@ fn get_binary(binary_name: &str) -> PathBuf {
     }
 }
 
-async fn get_codec(ffmpeg: &PathBuf, video: &PathBuf) -> String {
+async fn get_codec<'a>(ffmpeg: &'a PathBuf, video: &'a PathBuf) -> Result<String, &'a str> {
+    let allowed_codecs: [&str; 2] = ["h264", "hevc"];
+
     let mut child;
     #[cfg(unix)] {
         child = Command::new(ffmpeg)
@@ -156,14 +158,18 @@ async fn get_codec(ffmpeg: &PathBuf, video: &PathBuf) -> String {
     let mut stderr = String::from("");
     child.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
 
-    let video_codec = Regex::new(r"Video: ([^ ,]+)")
+    let codec = Regex::new(r"Video: ([^ ,]+)")
         .unwrap()
         .captures(&stderr)
         .and_then(|cap| cap.get(1))
         .map(|m| m.as_str())
         .unwrap();
 
-    video_codec.to_string()
+    if !allowed_codecs.contains(&codec) {
+        return Err("Using unsupported codec");
+    }
+
+    Ok(codec.to_string())
 }
 
 async fn play_compressing(app: AppHandle) {
