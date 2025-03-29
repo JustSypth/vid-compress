@@ -4648,7 +4648,6 @@ dependencies = [
  "colored",
  "fs_extra",
  "native-dialog",
- "regex",
  "serde",
  "serde_json",
  "tauri",
