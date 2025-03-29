@@ -166,6 +166,15 @@ async fn get_codec<'a>(ffmpeg: &'a PathBuf, video: &'a PathBuf) -> Result<String
         .spawn()
         .unwrap();
     }
+    #[cfg(windows)] {
+        use std::os::windows::process::CommandExt;
+        child = Command::new(ffmpeg)
+        .args(["ffmpeg", "-i", &video.display().to_string()])
+        .creation_flags(0x08000000)
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    }
 
     child.wait().await.unwrap();
     let mut stderr = String::from("");
