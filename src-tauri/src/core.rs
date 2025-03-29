@@ -1,3 +1,5 @@
+use std::panic;
+use std::sync::Arc;
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Stdio;
@@ -14,7 +16,18 @@ use regex::Regex;
 const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
 
+pub fn set_panic(app: Arc<AppHandle>) {
+    panic::set_hook(Box::new(move |panic_info| {
+        let error_msg = format!("{}\n{}", "The app's core failed with this message:".bold(), panic_info).red();
+        eprintln!("{error_msg}");
+        app.emit(PROCESSING, "false").unwrap();
+    }));
+}
+
 pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String) {
+    let app_arc = Arc::new(app.clone());
+    set_panic(app_arc);
+
     app.emit(PROCESSING, "true").unwrap();
 
     let ffmpeg = get_binary("ffmpeg");
