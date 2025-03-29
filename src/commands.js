@@ -3,10 +3,11 @@ const { listen } = window.__TAURI__.event;
 
 let processing = false;
 listen('PROCESSING', (event) => {
-    console.log("Event ", event);
+    console.log("Began compressing..");
     processing = event.payload === "true";
 
     if (processing === false) {
+        console.log("Stopped compressing..");
         close_confirmation();
     }
 });
@@ -23,9 +24,10 @@ async function begin() {
     var crf = document.getElementById('slider');
     var preset = document.getElementById('preset');
 
+    var hevc = document.getElementById('hevc');
 
     try {
-        await window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value});
+        await window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value, hevc: hevc.checked});
         console.log('begin(): Succesfully called the backend');
     } catch (error) {
         console.error('begin(): Error calling backend:', error);

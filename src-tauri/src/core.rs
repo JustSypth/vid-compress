@@ -11,7 +11,6 @@ use tokio::time::Duration;
 use tokio::time::sleep;
 use tokio::task::JoinHandle;
 use colored::Colorize;
-use regex::Regex;
 
 const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
@@ -24,7 +23,7 @@ pub fn set_panic(app: Arc<AppHandle>) {
     }));
 }
 
-pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String) {
+pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String, hevc_enabled: &bool) {
     let app_arc = Arc::new(app.clone());
     set_panic(app_arc);
 
@@ -42,8 +41,10 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         return;
     }
 
-    let codec = get_codec(&ffmpeg, &path).await.unwrap();
-    println!("{}", format!("Codec: {codec}").red().bold());
+    let mut codec = "h264";
+    if *hevc_enabled {
+        codec = "hevc";
+    }
 
     let input_path = path.display().to_string();
     let output_path = path.with_file_name(format!(
@@ -63,6 +64,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         "-y", &output_path_str,
     ];
 
+    println!("{}", format!("{} {}", "Set codec:".bold(), codec).blue());
     let process_message = format!(
         "{}\n{} {}",
         "Processing file with this command:".bold(),
@@ -153,45 +155,6 @@ fn get_binary(binary_name: &str) -> PathBuf {
     } else {
         return Path::new("bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
     }
-}
-
-async fn get_codec<'a>(ffmpeg: &'a PathBuf, video: &'a PathBuf) -> Result<String, &'a str> {
-    let allowed_codecs: [&str; 2] = ["h264", "hevc"];
-
-    let mut child;
-    #[cfg(unix)] {
-        child = Command::new(ffmpeg)
-        .args(["ffmpeg", "-i", &video.display().to_string()])
-        .stderr(Stdio::piped())
-        .spawn()
-        .unwrap();
-    }
-    #[cfg(windows)] {
-        use std::os::windows::process::CommandExt;
-        child = Command::new(ffmpeg)
-        .args(["ffmpeg", "-i", &video.display().to_string()])
-        .creation_flags(0x08000000)
-        .stderr(Stdio::piped())
-        .spawn()
-        .unwrap();
-    }
-
-    child.wait().await.unwrap();
-    let mut stderr = String::from("");
-    child.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
-
-    let codec = Regex::new(r"Video: ([^ ,]+)")
-        .unwrap()
-        .captures(&stderr)
-        .and_then(|cap| cap.get(1))
-        .map(|m| m.as_str())
-        .unwrap();
-
-    if !allowed_codecs.contains(&codec) {
-        return Err("Using unsupported codec");
-    }
-
-    Ok(codec.to_string())
 }
 
 async fn play_compressing(app: AppHandle) {
