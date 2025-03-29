@@ -1,0 +1,10 @@
+Changelog for v0.17.0:
+  Release date: 29.03.2025
+
+  - Add an option to output the compressed video in HEVC codec
+  - Add support for all codecs supported by FFMpeg
+  - Make the UI more consistent
+  - Reformats in code
+
+  - Add a panic hook which handles the core's debounce
+  - Patch overlay's background border overlapping main window frame
