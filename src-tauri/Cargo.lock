@@ -4647,7 +4647,9 @@ version = "0.17.0"
 dependencies = [
  "colored",
  "fs_extra",
+ "lazy_static",
  "native-dialog",
+ "nix",
  "serde",
  "serde_json",
  "tauri",

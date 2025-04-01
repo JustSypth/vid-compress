@@ -1,7 +1,7 @@
 use std::env;
 use crate::core;
-use native_dialog::FileDialog;
 use tauri::AppHandle;
+use native_dialog::FileDialog;
 use webbrowser;
 
 #[tauri::command]
@@ -38,4 +38,9 @@ pub async fn get_path() -> Result<String, String> {
 #[tauri::command]
 pub async fn begin(app: AppHandle, path: String, crf: String, preset: String, hevc: bool) {
     core::begin(&app, &path, &crf, &preset, &hevc).await;
+}
+
+#[tauri::command]
+pub async fn stop() {
+    core::stop().await;
 }

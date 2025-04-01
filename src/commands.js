@@ -1,13 +1,20 @@
 const appWindow = window.__TAURI__.window.getCurrentWindow();
 const { listen } = window.__TAURI__.event;
 
+let begin_btn = document.getElementById('begin');
+
 let processing = false;
 listen('PROCESSING', (event) => {
-    console.log("Began compressing..");
     processing = event.payload === "true";
 
-    if (processing === false) {
+    if (processing) {
+        console.log("Began compressing..");
+    }
+    if (!processing) {
         console.log("Stopped compressing..");
+        state = "start";
+        begin_btn.innerHTML = "Start";
+        console.log("Set to start");
         close_confirmation();
     }
 });
@@ -18,19 +25,43 @@ listen('STATUS', (event) => {
     progressbar.innerHTML = event.payload;
 });
 
+let state = "start";
+let debounce_begin = false;
 async function begin() {
-    if (processing) {return;}
-    var path = document.getElementById('path_textbox');
-    var crf = document.getElementById('slider');
-    var preset = document.getElementById('preset');
 
-    var hevc = document.getElementById('hevc');
+    if (state === "start") {
+        if (processing) {return;}
+        state = "stop";
+        begin_btn.innerHTML = "Stop";
+        console.log("Set to stop");
 
-    try {
-        await window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value, hevc: hevc.checked});
-        console.log('begin(): Succesfully called the backend');
-    } catch (error) {
-        console.error('begin(): Error calling backend:', error);
+        var path = document.getElementById('path_textbox');
+        var crf = document.getElementById('slider');
+        var preset = document.getElementById('preset');
+    
+        var hevc = document.getElementById('hevc');
+    
+        try {
+            window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value, hevc: hevc.checked});
+            console.log('Successfully called the backend');
+        } catch (error) {
+            console.error('Error calling backend: ', error);
+        }
+
+        return;
+    }
+    if (state === "stop") {
+        if (debounce_begin) {return;}
+        state = "start";
+        begin_btn.innerHTML = "Start";
+        console.log("Set to start");
+
+        debounce_begin = true;
+
+        await window.__TAURI__.core.invoke('stop');
+
+        debounce_begin = false;
+        return;
     }
 }
 
@@ -107,20 +138,20 @@ async function app_minimize() {
     appWindow.minimize();
 }
 
-let debounce = false;
+let debounce_info = false;
 async function toggle_info() {
     let base = document.getElementById('info-base');
     let overlay = document.getElementById('info');
     let isOpen = overlay.classList.contains('active');
     
-    if (debounce) { console.log("debounce"); return }
-    debounce = true;
+    if (debounce_info) { console.log("debounce_info"); return }
+    debounce_info = true;
 
     if (isOpen) {
         overlay.addEventListener('transitionend', () => {
             overlay.style.display = "none";
             base.style.display = "none";
-            debounce = false;
+            debounce_info = false;
         }, { once: true });
 
         overlay.classList.remove('active');
@@ -134,7 +165,7 @@ async function toggle_info() {
         base.classList.add('active');
         overlay.classList.add('active');
         
-        debounce = false;
+        debounce_info = false;
     }
 }
 document.getElementById('info-base').addEventListener('click', function(e) {

@@ -1,5 +1,6 @@
 use std::panic;
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Stdio;
@@ -15,12 +16,41 @@ use colored::Colorize;
 const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
 
+lazy_static::lazy_static! {
+    static ref STOPPED: AtomicBool = AtomicBool::new(false);
+    static ref CHILD_PIDS: Arc<Mutex<Vec<u32>>> = Arc::new(Mutex::new(Vec::new()));
+    static ref ANIMATION_HANDLE: Arc<Mutex<Option<tokio::task::JoinHandle<()>>>> = Arc::new(Mutex::new(None));
+}
+
 pub fn set_panic(app: Arc<AppHandle>) {
     panic::set_hook(Box::new(move |panic_info| {
         let error_msg = format!("{}\n{}", "The app's core failed with this message:".bold(), panic_info).red();
         eprintln!("{error_msg}");
         app.emit(PROCESSING, "false").unwrap();
     }));
+}
+
+pub async fn stop() {
+    if let Some(handle) = ANIMATION_HANDLE.lock().unwrap().take() {
+        handle.abort();
+    }
+
+    let pids = {
+        let mut guard = CHILD_PIDS.lock().unwrap();
+        std::mem::take(&mut *guard)
+    };
+
+    for pid in pids {
+        println!("Killing PID: {pid}");
+        kill_pid(pid).unwrap_or_else(|e|
+            eprintln!("{}", e)
+        );
+    }
+
+    STOPPED.store(true, Ordering::Release);
+    // take ffmpeg pid and KILL IT, take watchdog pid and KILL IT
+    // after you got that dont make begin function yap about anything
+    // so KILL BEGIN AS WELL after it gives you the pids
 }
 
 pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String, hevc_enabled: &bool) {
@@ -74,6 +104,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     println!("{process_message}");
 
     let animation_handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
+    *ANIMATION_HANDLE.lock().unwrap() = Some(animation_handle);
     
     let mut child_ffmpeg: Child;
     #[cfg(windows)]
@@ -96,7 +127,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     }
 
     let main_pid = std::process::id();
-    let ffmpeg_pid = child_ffmpeg.id().expect("Failure getting child pid!");
+    let ffmpeg_pid = child_ffmpeg.id().unwrap();
 
     let mut child_watchdog: Child;
     #[cfg(windows)]
@@ -116,25 +147,61 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         .unwrap();
     }
 
-    let status = child_ffmpeg.wait().await.unwrap();
+    let watchdog_pid = child_watchdog.id().unwrap();
+    CHILD_PIDS.lock().unwrap().extend([ffmpeg_pid, watchdog_pid]);
+    
+    let status = child_ffmpeg.wait().await.unwrap(); //wait until compressing is over
+    
     let mut stderr = String::from("");
     child_ffmpeg.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
 
+    CHILD_PIDS.lock().unwrap().clear();
     child_watchdog.kill().await.unwrap_or_else(|e| eprintln!("{} {e}", "Could not kill watchdog:".red().bold()));
-    animation_handle.abort();
-    
-    if status.success() {
-        let message = "Video compressed successfully";
-        app.emit(STATUS, &message).unwrap();
-        let message = format!("{}", message.green().bold());
-        println!("{message}")
-    } else {
-        let message = format!("Process failed with status: {}", &status);
-        // eprint!("{}", &stderr);
-        app.emit(STATUS, message).unwrap();
+    if let Some(handle) = ANIMATION_HANDLE.lock().unwrap().take() {
+        handle.abort();
     }
 
+    let message = if STOPPED.load(Ordering::Acquire) {
+        STOPPED.store(false, Ordering::Release);
+        format!("Forcefully stopped compression")
+    } else if status.success() {
+        let temp_msg = String::from("Video compressed successfully");
+        let message = format!("{}", temp_msg.green().bold());
+        println!("{message}");
+        temp_msg
+        
+    } else {
+        format!("Process failed with status: {}", &status)
+    };
+
+    app.emit(STATUS, message).unwrap();
+
     app.emit(PROCESSING, "false").unwrap();
+}
+
+fn kill_pid(pid: u32) -> Result<(), String> {
+    #[cfg(unix)]
+    {
+        use nix::sys::signal::{self, Signal};
+        let pid = nix::unistd::Pid::from_raw(pid as i32);
+
+        match signal::kill(pid, Signal::SIGKILL) {
+            Ok(_) => Ok(()),
+            Err(e) => Err(format!("Couldn't kill process: {}", e))
+        }
+    }
+    #[cfg(windows)] {
+        use std::os::windows::process::CommandExt;
+        let output = Command::new("taskkill")
+        .args(["/FI", &format!("PID eq {}", pid.to_string())])
+        .creation_flags(0x08000000)
+        .output();
+
+        match output {
+            Ok(_) => todo!(),
+            Err(e) => Err(format!("Couldn't kill process: {}", e)),
+        }
+    }
 }
 
 fn is_video(path: &PathBuf) -> bool {
