@@ -1,6 +1,6 @@
 const { listen } = window.__TAURI__.event;
 
-let begin_btn = document.getElementById('begin');
+let go_btn = document.getElementById('go');
 
 let processing = false;
 listen('PROCESSING', (event) => {
@@ -12,7 +12,7 @@ listen('PROCESSING', (event) => {
     if (!processing) {
         console.log("Stopped compressing..");
         state = "start";
-        begin_btn.innerHTML = "Start";
+        go_btn.innerHTML = "Start";
         console.log("Set to start");
         close_confirmation();
     }
@@ -25,13 +25,13 @@ listen('STATUS', (event) => {
 });
 
 let state = "start";
-let debounce_begin = false;
-async function begin() {
+let debounce_go = false;
+async function go() {
     console.log(state);
     if (state === "start") {
         if (processing) {return;}
         state = "stop";
-        begin_btn.innerHTML = "Stop";
+        go_btn.innerHTML = "Stop";
         console.log("Set to stop");
 
         var path = document.getElementById('path_textbox');
@@ -50,16 +50,16 @@ async function begin() {
         return;
     }
     if (state === "stop") {
-        if (debounce_begin) {return;}
+        if (debounce_go) {return;}
         state = "start";
-        begin_btn.innerHTML = "Start";
+        go_btn.innerHTML = "Start";
         console.log("Set to start");
 
-        debounce_begin = true;
+        debounce_go = true;
 
         await window.__TAURI__.core.invoke('stop');
 
-        debounce_begin = false;
+        debounce_go = false;
         return;
     }
 }
