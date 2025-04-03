@@ -40,12 +40,7 @@ async function go() {
     
         var hevc = document.getElementById('hevc');
     
-        try {
-            window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value, hevc: hevc.checked});
-            console.log('Successfully called the backend');
-        } catch (error) {
-            console.error('Error calling backend: ', error);
-        }
+        window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value, hevc: hevc.checked});
 
         return;
     }
