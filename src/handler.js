@@ -46,16 +46,22 @@ async function go() {
     }
     if (state === "stop") {
         if (debounce_go) {return;}
+        debounce_go = true;
+
+        const confirmed = await get_confirm(); 
+        if (confirmed) {
+            console.log("STOP CONFIRMATION: Pressed yes!")
+            await window.__TAURI__.core.invoke('stop');
+        } else if (!confirmed) {
+            console.log("STOP CONFIRMATION: Pressed no!")
+            debounce_go = false;
+            return;
+        }
+
         state = "start";
         go_btn.innerHTML = "Start";
         console.log("Set to start");
-
-        debounce_go = true;
-
-        await window.__TAURI__.core.invoke('stop');
-
         debounce_go = false;
-        return;
     }
 }
 
