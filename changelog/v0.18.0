@@ -1,0 +1,5 @@
+Changelog for v0.18.0:
+  Release date: 05.04.2025
+
+    - Add a stop feature to cancel the compressing instead of having to close the program
+    - Bigger reformats
