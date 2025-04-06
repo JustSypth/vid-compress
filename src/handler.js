@@ -37,10 +37,12 @@ async function go() {
         var path = document.getElementById('path_textbox');
         var crf = document.getElementById('slider');
         var preset = document.getElementById('preset');
-    
+        var audio = document.getElementById('audio-bitrate'); 
         var hevc = document.getElementById('hevc');
     
-        window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value, hevc: hevc.checked});
+
+        console.log(audio.value);
+        window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value, audio: audio.value, hevc: hevc.checked});
 
         return;
     }

@@ -36,8 +36,8 @@ pub async fn get_path() -> Result<String, String> {
 }
 
 #[tauri::command]
-pub async fn begin(app: AppHandle, path: String, crf: String, preset: String, hevc: bool) {
-    core::begin(&app, &path, &crf, &preset, &hevc).await;
+pub async fn begin(app: AppHandle, path: String, crf: String, preset: String, audio: String, hevc: bool) {
+    core::begin(&app, &path, &crf, &preset, &audio, &hevc).await;
 }
 
 #[tauri::command]

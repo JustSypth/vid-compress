@@ -48,12 +48,9 @@ pub async fn stop() {
     }
 
     STOPPED.store(true, Ordering::Release);
-    // take ffmpeg pid and KILL IT, take watchdog pid and KILL IT
-    // after you got that dont make begin function yap about anything
-    // so KILL BEGIN AS WELL after it gives you the pids
 }
 
-pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String, hevc_enabled: &bool) {
+pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String, audio_bitrate: &String, hevc_enabled: &bool) {
     let app_arc = Arc::new(app.clone());
     set_panic(app_arc);
 
@@ -63,17 +60,17 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     let watchdog = get_binary("vid-compress-watchdog");
 
     let path: PathBuf = PathBuf::from(path);
+    let mut codec = "h264";
+    if *hevc_enabled {
+        codec = "hevc";
+    }
+
 
     if !is_video(&path) {
         eprintln!("{}", "Invalid file path provided".red());
         app.emit(STATUS, "Please enter a valid video file.").unwrap();
         app.emit(PROCESSING, "false").unwrap();
         return;
-    }
-
-    let mut codec = "h264";
-    if *hevc_enabled {
-        codec = "hevc";
     }
 
     let input_path = path.display().to_string();
@@ -90,7 +87,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         "-crf", &crf,
         "-preset", &preset,
         "-acodec", "aac",
-        "-b:a", "128k",
+        "-b:a", &audio_bitrate,
         "-y", &output_path_str,
     ];
 
