@@ -34,11 +34,11 @@ async function go() {
         go_btn.innerHTML = "Stop";
         console.log("Set to stop");
 
-        var path = document.getElementById('path_textbox');
-        var crf = document.getElementById('slider');
-        var preset = document.getElementById('preset');
-        var audio = document.getElementById('audio-bitrate'); 
-        var hevc = document.getElementById('hevc');
+        let path = document.getElementById('path_textbox');
+        let crf = document.getElementById('slider');
+        let preset = document.getElementById('preset');
+        let audio = document.getElementById('audio-bitrate'); 
+        let hevc = document.getElementById('hevc');
     
 
         console.log(audio.value);
