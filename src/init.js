@@ -3,6 +3,8 @@ const slider = document.getElementById("slider");
 const output = document.getElementById("slider-value");
 const advanced = document.getElementById("advanced");
 const advancedBox = document.getElementById("advanced_box");
+const hevc = document.getElementById('hevc-div');
+
 const versionText = document.getElementById('version');
 
 let overlays = document.getElementsByClassName("overlay");
@@ -38,4 +40,9 @@ advanced.addEventListener("click", () => {
     
     advancedBox.style.display = isOpen ? "none" : "flex";
     advanced.innerHTML = `Advanced <small>${isOpen ? "▼" : "▲"}</small>`;
+});
+
+hevc.addEventListener("click", () => {
+    let hevc_checkbox = document.getElementById('hevc');
+    hevc_checkbox.checked = !hevc_checkbox.checked;
 });
