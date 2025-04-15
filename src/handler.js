@@ -2,7 +2,7 @@ const { listen } = window.__TAURI__.event;
 
 let go_btn = document.getElementById('go');
 
-let processing = false;
+let processing = true;
 listen('PROCESSING', (event) => {
     processing = event.payload === "true";
 
