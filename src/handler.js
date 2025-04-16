@@ -50,7 +50,7 @@ async function go() {
         if (debounce_go) {return;}
         debounce_go = true;
 
-        const confirmed = await get_confirm(); 
+        const confirmed = await get_confirm("Are you sure to cancel the compression?", "The video is still being compressed."); 
         if (confirmed) {
             console.log("STOP CONFIRMATION: Pressed yes!")
             await window.__TAURI__.core.invoke('stop');

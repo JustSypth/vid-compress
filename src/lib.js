@@ -1,13 +1,22 @@
 const appWindow = window.__TAURI__.window.getCurrentWindow();
 
-function get_confirm() {
+function get_confirm(first, second) {
     return new Promise((resolve) => {
         let base = document.getElementById('confirmation-base');
         let overlay = document.getElementById('confirmation');
         let confirmYes = document.getElementById('confirm-yes');
         let confirmNo = document.getElementById('confirm-no');
         let isOpen = overlay.classList.contains('active');
-    
+
+        const title = overlay.querySelector('p:first-child');
+        const subtitle = overlay.querySelector('p:nth-child(2)');
+
+        first = first || "Are you sure you want to quit?";
+        second = second || "The program is still compressing.";
+
+        title.innerHTML = first;
+        subtitle.innerHTML = second;
+
         if (isOpen) {
             overlay.addEventListener('transitionend', () => {
                 overlay.style.display = "none";
