@@ -1,8 +1,19 @@
 const { listen } = window.__TAURI__.event;
+const { emit } = window.__TAURI__.event;
 
 let go_btn = document.getElementById('go');
 
 let processing = false;
+
+listen('VID_EXISTS', async () => {
+    let confirmed = await get_confirm("Already compressed", "Do you want to recompress the video?");
+    
+    console.log(confirmed);
+
+    emit('RESPONSE_IGNORE_EXISTING', confirmed);
+});
+
+
 listen('PROCESSING', (event) => {
     processing = event.payload === "true";
 
@@ -11,9 +22,11 @@ listen('PROCESSING', (event) => {
     }
     if (!processing) {
         console.log("Stopped compressing..");
+        
         state = "start";
         go_btn.innerHTML = "Start";
         console.log("Set to start");
+        ignore_existing = false;
         close_confirmation();
     }
 });
@@ -25,7 +38,7 @@ listen('STATUS', (event) => {
 });
 
 let state = "start";
-let debounce_go = false;
+let debounce_stop = false;
 async function go() {
     console.log(state);
     if (state === "start") {
@@ -47,8 +60,8 @@ async function go() {
         return;
     }
     if (state === "stop") {
-        if (debounce_go) {return;}
-        debounce_go = true;
+        if (debounce_stop) {return;}
+        debounce_stop = true;
 
         const confirmed = await get_confirm("Are you sure to cancel the compression?", "The video is still being compressed."); 
         if (confirmed) {
@@ -56,14 +69,14 @@ async function go() {
             await window.__TAURI__.core.invoke('stop');
         } else if (!confirmed) {
             console.log("STOP CONFIRMATION: Pressed no!")
-            debounce_go = false;
+            debounce_stop = false;
             return;
         }
 
         state = "start";
         go_btn.innerHTML = "Start";
         console.log("Set to start");
-        debounce_go = false;
+        debounce_stop = false;
     }
 }
 

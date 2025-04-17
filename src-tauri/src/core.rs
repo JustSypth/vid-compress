@@ -4,7 +4,8 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Stdio;
-use tauri::{AppHandle, Emitter};
+use tauri::{AppHandle, Emitter, Listener};
+use tokio::sync::oneshot::channel;
 use tokio::io::AsyncReadExt;
 use tokio::process::Child;
 use tokio::process::Command;
@@ -15,6 +16,8 @@ use colored::Colorize;
 
 const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
+const VID_EXISTS: &str = "VID_EXISTS";
+const RESPONSE_IGNORE_EXISTING: &str = "RESPONSE_IGNORE_EXISTING";
 
 lazy_static::lazy_static! {
     static ref STOPPED: AtomicBool = AtomicBool::new(false);
@@ -90,6 +93,38 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         "-b:a", &audio_bitrate,
         "-y", &output_path_str,
     ];
+
+    if is_video(&output_path) {
+        app.emit(VID_EXISTS, "").unwrap();
+
+        let (sender, receiver): (tokio::sync::oneshot::Sender<()>, _) = channel();
+        let sender = std::sync::Arc::new(std::sync::Mutex::new(Some(sender)));
+        let sender_clone = sender.clone();
+
+        let app_clone = app.clone();
+
+        app.once(RESPONSE_IGNORE_EXISTING, move |e| {
+            let ignore: bool = e.payload().parse().unwrap();
+            
+            if let Some(handle) = ANIMATION_HANDLE.lock().unwrap().take() {
+                handle.abort();
+            }
+
+            match ignore {
+                true => {
+                    if let Some(s) = sender_clone.lock().unwrap().take() {
+                        let _ = s.send(());
+                    }
+                },
+                false => {
+                    app_clone.emit(PROCESSING, "false").unwrap();
+                    return;
+                },
+            }
+        });
+
+        receiver.await.unwrap();
+    }
 
     println!("{}", format!("{} {}", "Set codec:".bold(), codec).blue());
     let process_message = format!(
