@@ -33,18 +33,12 @@ function get_confirm(first, second) {
             overlay.classList.add('active');
     
             confirmYes.addEventListener('click', () => {
+                close_confirmation();
+
                 resolve(true);
             });
             confirmNo.addEventListener('click', () => {
-                var overlay = document.getElementById('confirmation');
-            
-                overlay.addEventListener('transitionend', () => {
-                    overlay.style.display = "none";
-                    base.style.display = "none";
-                }, { once: true });
-            
-                overlay.classList.remove('active');
-                base.classList.remove('active');
+                close_confirmation();
     
                 resolve(false);
             });
