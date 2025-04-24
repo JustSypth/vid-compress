@@ -4,14 +4,17 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Stdio;
+use regex::Regex;
 use tauri::{AppHandle, Emitter, Listener};
+use tokio::sync::{mpsc, oneshot};
 use tokio::sync::oneshot::channel;
-use tokio::io::AsyncReadExt;
 use tokio::process::Child;
 use tokio::process::Command;
 use tokio::time::Duration;
 use tokio::time::sleep;
 use tokio::task::JoinHandle;
+use tokio_util::codec::{FramedRead, LinesCodec};
+use tokio_stream::StreamExt;
 use colored::Colorize;
 
 const STATUS: &str = "STATUS";
@@ -27,6 +30,10 @@ lazy_static::lazy_static! {
 
 pub fn set_panic(app: Arc<AppHandle>) {
     panic::set_hook(Box::new(move |panic_info| {
+        if let Some(handle) = ANIMATION_HANDLE.lock().unwrap().take() {
+            handle.abort();
+        }
+
         let error_msg = format!("{}\n{}", "The app's core failed with this message:".bold(), panic_info).red();
         eprintln!("{error_msg}");
         app.emit(PROCESSING, "false").unwrap();
@@ -92,6 +99,8 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         "-acodec", "aac",
         "-b:a", &audio_bitrate,
         "-y", &output_path_str,
+        // "-nostdin",
+        "-progress", "pipe:1",
     ];
 
     if is_video(&output_path) {
@@ -134,9 +143,6 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         execute_arg.join(" ").italic()
     );
     println!("{process_message}");
-
-    let animation_handle: JoinHandle<()> = tokio::spawn(play_compressing(app.clone()));
-    *ANIMATION_HANDLE.lock().unwrap() = Some(animation_handle);
     
     let mut child_ffmpeg: Child;
     #[cfg(windows)]
@@ -145,6 +151,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
         child_ffmpeg = Command::new(ffmpeg)
         .args(&execute_arg)
         .creation_flags(0x08000000)
+        .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
         .unwrap();
@@ -153,6 +160,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     {
         child_ffmpeg = Command::new(ffmpeg)
         .args(&execute_arg)
+        .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
         .unwrap();
@@ -182,10 +190,13 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     let watchdog_pid = child_watchdog.id().unwrap();
     CHILD_PIDS.lock().unwrap().extend([ffmpeg_pid, watchdog_pid]);
     
+    let out_pipe = child_ffmpeg.stdout.take().unwrap();
+    let err_pipe = child_ffmpeg.stderr.take().unwrap();
+
+    let animation_handle: JoinHandle<()> = tokio::spawn(play_progress(app.clone(), out_pipe, err_pipe));
+    *ANIMATION_HANDLE.lock().unwrap() = Some(animation_handle);
+
     let status = child_ffmpeg.wait().await.unwrap(); //wait until compressing is over
-    
-    let mut stderr = String::from("");
-    child_ffmpeg.stderr.take().unwrap().read_to_string(&mut stderr).await.unwrap();
 
     CHILD_PIDS.lock().unwrap().clear();
     child_watchdog.kill().await.unwrap_or_else(|e| eprintln!("{} {e}", "Could not kill watchdog:".red().bold()));
@@ -256,13 +267,83 @@ fn get_binary(binary_name: &str) -> PathBuf {
     }
 }
 
-async fn play_compressing(app: AppHandle) {
-    let frames: [&str; 4] = ["Compressing", "Compressing.", "Compressing..", "Compressing..."];
-    let mut index = 0;
+// async fn play_compressing(app: AppHandle) {
+//     let frames: [&str; 4] = ["Compressing", "Compressing.", "Compressing..", "Compressing..."];
+//     let mut index = 0;
     
+//     loop {
+//         app.emit(STATUS, frames[index]).unwrap();
+//         index = (index + 1) % frames.len(); //to cycle
+//         sleep(Duration::from_millis(500)).await;
+//     }
+// }
+
+async fn play_progress(app: AppHandle, stdout: tokio::process::ChildStdout, stderr: tokio::process::ChildStderr) {
+    let mut stdout = FramedRead::new(stdout, LinesCodec::new()).map(|data| data.expect("Fail on stdout"));
+    let mut stderr = FramedRead::new(stderr, LinesCodec::new()).map(|data| data.expect("Fail on stderr"));
+
+    let (tx_duration, mut rx_duration) = oneshot::channel::<u64>();
+    tokio::spawn(async move {
+        let re_duration = Regex::new(r"Duration: ([^,]*)").unwrap();
+
+        while let Some(line) = stderr.next().await {
+            if let Some(i) = re_duration.captures(&line) {
+                let duration: u64 = {
+                    let i: Vec<&str> = i[1].split(':').collect();
+                    
+                    let hours: u64 = i[0].parse().unwrap();
+                    let minutes: u64 = i[1].parse().unwrap();
+                    let (seconds, centiseconds): (u64, u64) = {
+                        let seconds_part: Vec<&str> = i[2].split('.').collect();
+                        let seconds: u64 = seconds_part[0].parse().unwrap();
+                        let centiseconds: u64 = seconds_part[1].parse().unwrap();
+                        (seconds, centiseconds)
+                    };
+
+                    let in_microseconds: u64 =
+                        hours * 3_600_000_000 +
+                        minutes * 60_000_000 +
+                        seconds * 1_000_000 +
+                        centiseconds * 10_000;
+                    in_microseconds
+                };
+
+                tx_duration.send(duration).unwrap();
+                return;
+            }
+        }
+    });
+
+    let (tx_time, mut rx_time) = mpsc::channel::<u64>(1);
+    tokio::spawn(async move {
+        let re_time = Regex::new(r"out_time_ms=([^\n]*)").unwrap();
+        while let Some(line) = stdout.next().await {
+            if let Some(i) = re_time.captures(&line) {
+                let time = i[1].trim().parse().unwrap_or_else(|_| 0);
+
+                let _ = tx_time.try_send(time);
+            }
+        }
+    });
+
+    let mut duration: u64 = 0;
+    #[allow(unused_assignments)]
+    let mut time: u64 = 0;
+
     loop {
-        app.emit(STATUS, frames[index]).unwrap();
-        index = (index + 1) % frames.len(); //to cycle
-        sleep(Duration::from_millis(500)).await;
+        if duration == 0 {
+            duration = rx_duration.try_recv().ok().unwrap_or_else(|| 0);
+        }
+
+        time = rx_time.try_recv().ok().unwrap_or_else(|| duration);
+
+        // println!("Duration: {}", duration);
+        // println!("Time: {}", time);
+
+        let percentage: u32 = ((time as f32 / duration as f32)*100.0) as u32;
+
+        app.emit(STATUS, format!("{}%", percentage)).unwrap();
+
+        sleep(Duration::from_millis(1000)).await;
     }
 }
