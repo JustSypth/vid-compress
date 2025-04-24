@@ -4318,10 +4318,21 @@ dependencies = [
 ]
 
 [[package]]
-name = "tokio-util"
-version = "0.7.13"
+name = "tokio-stream"
+version = "0.1.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d7fcaa8d55a2bdd6b83ace262b016eca0d79ee02818c5c1bcdf0305114081078"
+checksum = "eca58d7bba4a75707817a2c44174253f9236b2d5fbd055602e9d5c07c139a047"
+dependencies = [
+ "futures-core",
+ "pin-project-lite",
+ "tokio",
+]
+
+[[package]]
+name = "tokio-util"
+version = "0.7.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6b9590b93e6fcc1739458317cccd391ad3955e2bde8913edf6f95f9e65a8f034"
 dependencies = [
  "bytes",
  "futures-core",
@@ -4650,6 +4661,7 @@ dependencies = [
  "lazy_static",
  "native-dialog",
  "nix",
+ "regex",
  "serde",
  "serde_json",
  "tauri",
@@ -4657,6 +4669,8 @@ dependencies = [
  "tauri-plugin-opener",
  "tokio",
  "tokio-macros",
+ "tokio-stream",
+ "tokio-util",
  "webbrowser",
 ]
 
