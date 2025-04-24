@@ -340,9 +340,9 @@ async fn play_progress(app: AppHandle, stdout: tokio::process::ChildStdout, stde
         // println!("Duration: {}", duration);
         // println!("Time: {}", time);
 
-        let percentage: u32 = ((time as f32 / duration as f32)*100.0) as u32;
+        let percentage: f32 = (time as f32 / duration as f32)*100.0;
 
-        app.emit(STATUS, format!("{}%", percentage)).unwrap();
+        app.emit(STATUS, format!("{:.2}%", percentage)).unwrap();
 
         sleep(Duration::from_millis(1000)).await;
     }
