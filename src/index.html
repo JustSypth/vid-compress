@@ -103,13 +103,29 @@
 
           <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">CRF (Constant Rate Factor)</h4>  
           <p style="margin-top: 8px;">
-            Sets video quality. <br> Lower values output higher quality and larger file sizes. Higher values output lower quality and smaller file sizes.
+            Sets video quality. <br>
+            Recommended value: 32 <br>
+            Lower values output quality closer to source video but may result in larger file sizes. Higher values decrease the quality but shrink the output size.
           </p>
 
           <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">Preset</h4>  
           <p style="margin-top: 8px;">
-            Controls the speed of video encoding. (ultrafast, veryfast, medium, slow, veryslow) <br>
-            Slower presets produce better quality and smaller file sizes. Faster presets are quicker but result in larger files with lower quality.
+            Controls the speed of video encoding. <br>
+            Recommended value: slow <br>
+            Slower presets produce better encoding quality and smaller file sizes. Faster presets are quicker but result in larger files with lower encoding quality.
+          </p>
+
+          <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">Audio Bitrate</h4>  
+          <p style="margin-top: 8px;">
+            Sets the audio's bitrate. <br>
+            Recommended value: 64kb <br>
+            Higher bitrate results in keeping the source video quality, lower bitrate results in lower audio quality but also smaller output size.
+          </p>
+
+          <h4 style="margin-bottom: 0px; font-weight: 450; font-family: 'Lexend';">HEVC</h4>  
+          <p style="margin-top: 8px;">
+            Outputs the result as HEVC codec. <br>
+            HEVC/H.265 codec is smaller in size while keeping the same quality as H.264. Do note that not all platforms might support HEVC/H.265
           </p>
         </div>
       </div>
