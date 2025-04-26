@@ -5,24 +5,17 @@ let go_btn = document.getElementById('go');
 
 let processing = false;
 
-listen('VID_EXISTS', async () => {
-    let confirmed = await get_confirm("Already compressed", "Do you want to recompress the video?");
-    
-    console.log(confirmed);
-
-    emit('RESPONSE_IGNORE_EXISTING', confirmed);
-});
-
-
 listen('PROCESSING', (event) => {
     processing = event.payload === "true";
 
+    const progressbarBase = document.getElementById('progressbar-outer');
+
     if (processing) {
-        console.log("Began compressing..");
+        console.log("Started.");
     }
     if (!processing) {
-        console.log("Stopped compressing..");
-        
+        progressbarBase.style.display = "none";
+
         state = "start";
         go_btn.innerHTML = "Start";
         console.log("Set to start");
@@ -32,9 +25,28 @@ listen('PROCESSING', (event) => {
 });
 
 listen('STATUS', (event) => {
-    const progressbar = document.getElementById('progress');
-    progressbar.style.display = "block";
-    progressbar.innerHTML = event.payload;
+    const status = document.getElementById('status');
+    status.style.display = "block";
+    status.innerHTML = event.payload;
+});
+
+listen('PERCENTAGE', (event) => {
+    const status = document.getElementById('status');
+    const progressbarBase = document.getElementById('progressbar-outer');
+    const progressbar = document.getElementById('progressbar');
+
+    status.style.display = "block";
+    status.innerHTML = event.payload;
+    
+    progressbarBase.style.display = "flex";
+    progressbar.style.width = event.payload;
+});
+
+listen('VID_EXISTS', async () => {
+    processing = false;
+    let confirmed = await get_confirm("Already compressed", "Do you want to recompress the video?");
+    if (confirmed) { processing = true; }
+    emit('RESPONSE_IGNORE_EXISTING', confirmed);
 });
 
 let state = "start";

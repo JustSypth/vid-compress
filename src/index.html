@@ -61,11 +61,15 @@
       </div>
 
       <div class="progress">
-        <p style="width: 80%; text-align: center; display: none; word-wrap: break-word;" id="progress">Index</p>
+        <p id="status" style="margin: 12px; width: 80%; text-align: center; display: none; word-wrap: break-word;">Index</p>
+        <div id="progressbar-outer" class="progress-line" style="display: none;"> <div  id="progressbar" class="progress-line inner"></div> </div>
         <button class="progress-btn" id="go" onclick="go()">Start</button>
       </div>
     </div>
+
     
+
+
     <div class="overlay" id="info-base">
       <div data-tauri-drag-region class="drag-panel"></div>
       <div class="info" id="info">

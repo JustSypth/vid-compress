@@ -17,8 +17,9 @@ use tokio_util::codec::{FramedRead, LinesCodec};
 use tokio_stream::StreamExt;
 use colored::Colorize;
 
-const STATUS: &str = "STATUS";
 const PROCESSING: &str = "PROCESSING";
+const STATUS: &str = "STATUS";
+const PERCENTAGE: &str = "PERCENTAGE";
 const VID_EXISTS: &str = "VID_EXISTS";
 const RESPONSE_IGNORE_EXISTING: &str = "RESPONSE_IGNORE_EXISTING";
 
@@ -345,7 +346,7 @@ async fn play_progress(app: AppHandle, stdout: tokio::process::ChildStdout, stde
         if percentage == 0.0 && started { percentage = 100.0; }
         
 
-        app.emit(STATUS, format!("{:.2}%", percentage)).unwrap();
+        app.emit(PERCENTAGE, format!("{:.2}%", percentage)).unwrap();
 
         sleep(Duration::from_millis(1000)).await;
     }

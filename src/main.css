@@ -301,6 +301,14 @@ input {
 .progress-btn:active {
     background-color: rgba(88, 88, 88, 0.25);
 }
+.progress-line {
+    margin-bottom: 12px; width: 90%; height: 6px; background: rgba(17, 13, 31, 0.656); border-radius: 12px;
+}
+.progress-line .inner {
+    background-color: #59466a;
+    margin: 0;
+    width: 0%;
+}
 
 .textbox {
     width: 75%;
