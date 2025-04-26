@@ -3,7 +3,7 @@ use std::path::Path;
 use std::fs::create_dir_all;
 
 fn main() {
-    move_binaries(&["ffmpeg", "vid-compress-watchdog"]);
+    move_binaries(&["vid-compress-ffmpeg", "vid-compress-watchdog"]);
     tauri_build::build()
 }
 

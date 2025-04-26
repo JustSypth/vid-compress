@@ -67,7 +67,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
 
     app.emit(PROCESSING, "true").unwrap();
 
-    let ffmpeg = get_binary("ffmpeg");
+    let ffmpeg = get_binary("vid-compress-ffmpeg");
     let watchdog = get_binary("vid-compress-watchdog");
 
     let path: PathBuf = PathBuf::from(path);
