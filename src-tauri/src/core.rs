@@ -329,18 +329,21 @@ async fn play_progress(app: AppHandle, stdout: tokio::process::ChildStdout, stde
     let mut duration: u64 = 0;
     #[allow(unused_assignments)]
     let mut time: u64 = 0;
+    let mut started = false;
 
     loop {
         if duration == 0 {
             duration = rx_duration.try_recv().ok().unwrap_or_else(|| 0);
+            continue;
         }
 
-        time = rx_time.try_recv().ok().unwrap_or_else(|| duration);
+        time = rx_time.try_recv().ok().unwrap_or_else(|| 0);
 
-        // println!("Duration: {}", duration);
-        // println!("Time: {}", time);
+        let mut percentage: f32 = (time as f32 / duration as f32)*100.0;
 
-        let percentage: f32 = (time as f32 / duration as f32)*100.0;
+        if percentage > 0.0 { started = true; }
+        if percentage == 0.0 && started { percentage = 100.0; }
+        
 
         app.emit(STATUS, format!("{:.2}%", percentage)).unwrap();
 
