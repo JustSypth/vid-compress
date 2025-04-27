@@ -1,0 +1,7 @@
+Changelog for v0.20.0:
+  Release date: 27.04.2025
+
+    - Add a progressbar and percentage display to show the progress
+    - Add a --version flag to the program
+    - Rename "ffmpeg" executable into "vid-compress-ffmpeg" for organization
+    - Reformats
