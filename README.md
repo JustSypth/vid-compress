@@ -1,6 +1,9 @@
 # vid-compress  
 
-### An app for compressing videos with FFmpeg embedded.  
-### !!! (Work In Process) !!!
-The project is still being finished. It is close to releasing.  
-I recommend waiting for the first release.
+#### A simple application to compress videos with simple UI.
+
+## Features
+All features listed below contribute in resulting smaller output sizes:
+- Set compression intensity with a CRF value
+- Set audio bitrate as well
+- Option to have the output be HEVC
