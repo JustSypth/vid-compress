@@ -26,3 +26,16 @@
     Lowering the bitrate decreases the result size but also decreases audio quality.
 
   **-Hevc:** Transcodes the video into HEVC which reduces result size but also takes longer to finish.
+
+## Building
+  #### Requirements:
+  - To compile the application you must have [rust-lang](https://www.rust-lang.org/) installed (cargo, rustc)
+
+  #### Steps:
+  1. Clone the repository with: `git clone "https://github.com/JustSypth/vid-compress"`
+  2. Navigate into the repository folder
+  3. Navigate into `./src-tauri`
+  4. Run `cargo build --release`
+  5. Navigate into `./src-tauri/target/release`
+  6. Execute `vid-compress`  
+  7. Move `vid-compress` and `./bin` somewhere else **(optional)**
