@@ -10,7 +10,7 @@
   - Option to have the output be HEVC
 
 ## Download
-  [Download the latest release here](https://github.com/JustSypth/vid-compress/releases/latest) or by downloading the latest release from the [releases](https://github.com/JustSypth/vid-compress/releases/).
+  [Download the latest release here](https://github.com/JustSypth/vid-compress/releases/latest) or by going to the [releases](https://github.com/JustSypth/vid-compress/releases/).
 
 ## Usage
   1. Unpack the downloaded release archive and execute vid-compress.
