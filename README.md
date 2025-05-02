@@ -1,6 +1,6 @@
 # vid-compress  
 
-  #### A simple application to compress videos with simple UI.
+  #### An application to compress videos with simple UI.
   #### Supported platforms: Linux, Windows
 
 ## Features
