@@ -8,6 +8,7 @@
   - Set compression intensity with a CRF value
   - Set audio bitrate
   - Option to have the output be HEVC
+  - Encoding presets
 
 ## Download
   [Download the latest release here](https://github.com/JustSypth/vid-compress/releases/latest) or by going to the [releases](https://github.com/JustSypth/vid-compress/releases/).
