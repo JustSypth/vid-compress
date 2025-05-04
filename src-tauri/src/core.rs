@@ -268,17 +268,6 @@ fn get_binary(binary_name: &str) -> PathBuf {
     }
 }
 
-// async fn play_compressing(app: AppHandle) {
-//     let frames: [&str; 4] = ["Compressing", "Compressing.", "Compressing..", "Compressing..."];
-//     let mut index = 0;
-    
-//     loop {
-//         app.emit(STATUS, frames[index]).unwrap();
-//         index = (index + 1) % frames.len(); //to cycle
-//         sleep(Duration::from_millis(500)).await;
-//     }
-// }
-
 async fn play_progress(app: AppHandle, stdout: tokio::process::ChildStdout, stderr: tokio::process::ChildStderr) {
     let mut stdout = FramedRead::new(stdout, LinesCodec::new()).map(|data| data.expect("Fail on stdout"));
     let mut stderr = FramedRead::new(stderr, LinesCodec::new()).map(|data| data.expect("Fail on stderr"));
