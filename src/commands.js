@@ -1,6 +1,6 @@
-async function get_path() {
+async function open_file() {
     try {
-        const response = await window.__TAURI__.core.invoke('get_path');
+        const response = await window.__TAURI__.core.invoke('open_file');
         console.log(response);
         let path = document.getElementById('path_textbox');
         path.value = response;

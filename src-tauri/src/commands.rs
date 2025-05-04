@@ -20,7 +20,7 @@ pub async fn open_url(url: String) {
 }
 
 #[tauri::command]
-pub async fn get_path() -> Result<String, String> {
+pub async fn open_file() -> Result<String, String> {
     let path = FileDialog::new()
         .add_filter(
             "Video Files",
