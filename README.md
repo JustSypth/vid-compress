@@ -6,7 +6,7 @@
 ## Features
   All features listed below contribute in resulting smaller output sizes:
   - Set compression intensity with a CRF value
-  - Set audio bitrate as well
+  - Set audio bitrate
   - Option to have the output be HEVC
 
 ## Download
