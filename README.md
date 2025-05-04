@@ -14,7 +14,7 @@
 
 ## Usage
   1. Unpack the downloaded release archive and execute vid-compress.
-  2. Select the video in the application by either clicking the "Select" button or by pasting the video's path inside the text box.
+  2. Select the video by either clicking "Select" or by dragging a video file to the window.
   3. Adjust the CRF <i> (compression) </i> value if needed. (The default value should be enough)
   4. Click the "Start" button to begin.
 
