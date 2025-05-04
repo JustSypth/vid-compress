@@ -53,7 +53,7 @@ pub async fn stop() {
 
     for pid in pids {
         println!("Killing PID: {pid}");
-        kill_pid(pid).unwrap_or_else(|e|
+        kill_pid(pid).await.unwrap_or_else(|e|
             eprintln!("{}", e)
         );
     }
@@ -223,7 +223,7 @@ pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String
     app.emit(PROCESSING, "false").unwrap();
 }
 
-fn kill_pid(pid: u32) -> Result<(), String> {
+async fn kill_pid(pid: u32) -> Result<(), String> {
     #[cfg(unix)]
     {
         use nix::sys::signal::{self, Signal};
@@ -241,8 +241,8 @@ fn kill_pid(pid: u32) -> Result<(), String> {
         .creation_flags(0x08000000)
         .output();
 
-        match output {
-            Ok(_) => todo!(),
+        match output.await {
+            Ok(_) => Ok(()),
             Err(e) => Err(format!("Couldn't kill process: {}", e)),
         }
     }
