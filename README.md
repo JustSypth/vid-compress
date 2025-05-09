@@ -36,11 +36,11 @@
   1. Navigate into `./src-watchdog`
   4. Run `cargo build --release`
   5. Navigate into `./target/release`
-  6. Move `vid-compress-watchdog` to `/vid-compress/bin/` and rename it into `vid-compress-ffmpeg`
+  6. Move `vid-compress-watchdog` to `/vid-compress/bin/`
   
   #### 2. Download pre-compiled static ffmpeg build:
   1. Download the binaries here: [FFmpeg Linux](https://johnvansickle.com/ffmpeg/) | [FFmpeg Windows](https://www.gyan.dev/ffmpeg/builds/)
-  2. Move the ffmpeg binary into `/vid-compress/bin/`
+  2. Move the ffmpeg binary into `/vid-compress/bin/` and rename it into `vid-compress-ffmpeg`
 
   (In case you don't want to download these pre-compiled builds then you can just compile your own.)
 
