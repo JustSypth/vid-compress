@@ -1,7 +1,6 @@
-use std::panic;
+use std::{env, panic};
 use std::sync::{Arc, Mutex};
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::path::Path;
 use std::path::PathBuf;
 use std::process::Stdio;
 use regex::Regex;
@@ -261,10 +260,11 @@ fn is_video(path: &PathBuf) -> bool {
 }
 
 fn get_binary(binary_name: &str) -> PathBuf {
+    let src_path = env::current_exe().unwrap();
     if std::env::var("CARGO").is_ok() {
-        return Path::new("../bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
+        return src_path.parent().unwrap().join("../bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
     } else {
-        return Path::new("bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
+        return src_path.parent().unwrap().join("bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
     }
 }
 
