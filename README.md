@@ -6,15 +6,16 @@
 ## Features
   All features listed below contribute in resulting smaller output sizes:
   - Set compression intensity with a CRF value
-  - Set audio bitrate as well
+  - Set audio bitrate
   - Option to have the output be HEVC
+  - Encoding presets
 
 ## Download
   [Download the latest release here](https://github.com/JustSypth/vid-compress/releases/latest) or by going to the [releases](https://github.com/JustSypth/vid-compress/releases/).
 
 ## Usage
   1. Unpack the downloaded release archive and execute vid-compress.
-  2. Select the video in the application by either clicking the "Select" button or by pasting the video's path inside the text box.
+  2. Select the video by either clicking "Select" or by dragging a video file to the window.
   3. Adjust the CRF <i> (compression) </i> value if needed. (The default value should be enough)
   4. Click the "Start" button to begin.
 
