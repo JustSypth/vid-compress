@@ -32,11 +32,19 @@
   #### Requirements:
   - To compile the application you must have [rust-lang](https://www.rust-lang.org/) installed (cargo, rustc)
 
-  #### Steps:
-  1. Clone the repository with: `git clone "https://github.com/JustSypth/vid-compress"`
-  2. Navigate into the repository folder
-  3. Navigate into `./src-tauri`
+  #### 1. Compile the watchdog:
+  1. Navigate into `./src-watchdog`
   4. Run `cargo build --release`
-  5. Navigate into `./src-tauri/target/release`
-  6. Execute `vid-compress`  
-  7. Move `vid-compress` and `./bin` somewhere else **(optional)**
+  5. Navigate into `./target/release`
+  6. Move `vid-compress-watchdog` to `/vid-compress/bin/`
+  
+  #### 2. Download pre-compiled static ffmpeg build:
+  1. Download the binaries here: [FFmpeg Linux](https://johnvansickle.com/ffmpeg/) | [FFmpeg Windows](https://www.gyan.dev/ffmpeg/builds/)
+  2. Move the ffmpeg binary into `/vid-compress/bin/` and rename it into `vid-compress-ffmpeg`
+
+  (In case you don't want to download these pre-compiled builds then you can just compile your own.)
+
+  #### 3. Compile the app:
+  1. Navigate into `./src-tauri`
+  2. Run `cargo build --release`
+  3. The compiled app will be located in `./target/release/`

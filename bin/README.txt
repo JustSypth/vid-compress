@@ -1,7 +1,7 @@
 FFMpeg files:
-Linux => "ffmpeg"
-Windows => "ffmpeg.exe"
+Linux => "vid-compress-ffmpeg"
+Windows => "vid-compress-ffmpeg.exe"
 
 Watchdog files:
-Linux => "watchdog"
-Windows => "watchdog.exe"
+Linux => "vid-compress-watchdog"
+Windows => "vid-compress-watchdog.exe"
