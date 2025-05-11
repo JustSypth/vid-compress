@@ -17,7 +17,7 @@ pub fn run() {
         Ok(())
     })
     .invoke_handler(tauri::generate_handler![
-        commands::begin, commands::stop, commands::open_url,
+        commands::start, commands::stop, commands::open_url,
         commands::get_os, commands::get_version, commands::open_file,
     ])
     .run(tauri::generate_context!())

@@ -67,7 +67,7 @@ async function go() {
     
 
         console.log(audio.value);
-        window.__TAURI__.core.invoke('begin', {path: path.value, crf: crf.value, preset: preset.value, audio: audio.value, hevc: hevc.checked});
+        window.__TAURI__.core.invoke('start', {path: path.value, crf: crf.value, preset: preset.value, audio: audio.value, hevc: hevc.checked});
 
         return;
     }

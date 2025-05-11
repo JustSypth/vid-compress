@@ -36,8 +36,8 @@ pub async fn open_file() -> Result<String, String> {
 }
 
 #[tauri::command]
-pub async fn begin(app: AppHandle, path: String, crf: String, preset: String, audio: String, hevc: bool) {
-    core::begin(&app, &path, &crf, &preset, &audio, &hevc).await;
+pub async fn start(app: AppHandle, path: String, crf: String, preset: String, audio: String, hevc: bool) {
+    core::start(&app, &path, &crf, &preset, &audio, &hevc).await;
 }
 
 #[tauri::command]

@@ -60,13 +60,14 @@ pub async fn stop() {
     STOPPED.store(true, Ordering::Release);
 }
 
-pub async fn begin(app: &AppHandle, path: &String, crf: &String, preset: &String, audio_bitrate: &String, hevc_enabled: &bool) {
+pub async fn start(app: &AppHandle, path: &String, crf: &String, preset: &String, audio_bitrate: &String, hevc_enabled: &bool) {
     let app_arc = Arc::new(app.clone());
     set_panic(app_arc);
 
     app.emit(PROCESSING, "true").unwrap();
 
     let ffmpeg = get_binary("vid-compress-ffmpeg");
+    println!("{}", ffmpeg.display());
     let watchdog = get_binary("vid-compress-watchdog");
 
     let path: PathBuf = PathBuf::from(path);
