@@ -263,7 +263,7 @@ fn is_video(path: &PathBuf) -> bool {
 fn get_binary(binary_name: &str) -> PathBuf {
     let src_path = env::current_exe().unwrap();
     if std::env::var("CARGO").is_ok() {
-        return src_path.parent().unwrap().join("../bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
+        return PathBuf::from("../bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
     } else {
         return src_path.parent().unwrap().join("bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
     }
