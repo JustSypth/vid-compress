@@ -66,9 +66,10 @@ pub async fn start(app: &AppHandle, path: &String, crf: &String, preset: &String
 
     app.emit(PROCESSING, "true").unwrap();
 
-    let ffmpeg = get_binary("vid-compress-ffmpeg");
+    let ffmpeg = get_binary("vid-compress-ffmpeg").unwrap();
+    let watchdog = get_binary("vid-compress-watchdog").unwrap();
+
     println!("{}", ffmpeg.display());
-    let watchdog = get_binary("vid-compress-watchdog");
 
     let path: PathBuf = PathBuf::from(path);
     let mut codec = "h264";
@@ -260,13 +261,26 @@ fn is_video(path: &PathBuf) -> bool {
     false
 }
 
-fn get_binary(binary_name: &str) -> PathBuf {
-    let src_path = env::current_exe().unwrap();
+fn get_binary(binary_name: &str) -> Result<PathBuf, &str> {
     if std::env::var("CARGO").is_ok() {
-        return PathBuf::from("../bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
-    } else {
-        return src_path.parent().unwrap().join("bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
+        let path = PathBuf::from("../bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
+        if path.exists() { return Ok(path); }
     }
+
+    let path_portable = {
+        let path = env::current_exe().unwrap();
+        let path = path.parent().unwrap().join("bin").join(if cfg!(windows) { format!("{binary_name}.exe") } else { format!("{binary_name}") });
+        path
+    };
+    if path_portable.exists() { return Ok(path_portable) }
+
+    #[cfg(unix)]
+    {
+        let path_installed = PathBuf::from("/usr/local/lib/vid-compress/bin").join(binary_name);
+        if path_installed.exists() { return Ok(path_installed) }
+    }
+
+    return Err("Could not resolve any path");
 }
 
 async fn play_progress(app: AppHandle, stdout: tokio::process::ChildStdout, stderr: tokio::process::ChildStderr) {

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=vid-compress
+Name[en_US]=vid-compress
+Comment=Video Compression UI
+Comment[en_US]=Video Compression UI
+Exec=/usr/local/bin/vid-compress
+Icon=/usr/local/lib/vid-compress/assets/icon.png
+Terminal=false
+Type=Application
+Categories=AudioVideo;Video;Utility;
+StartupNotify=true
