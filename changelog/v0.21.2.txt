@@ -1,0 +1,4 @@
+Changelog for v0.21.2:
+  Release date: 12.05.2025
+
+    - Add intallation feature
