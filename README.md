@@ -14,7 +14,7 @@
   [Download the latest release here](https://github.com/JustSypth/vid-compress/releases/latest) or by going to the [releases](https://github.com/JustSypth/vid-compress/releases/).
 
 ## Usage
-  1. Unpack the downloaded release archive and execute vid-compress.
+  1. Unzip the downloaded file archive and run vid-compress.
   2. Select the video by either clicking "Select" or by dragging a video file to the window.
   3. Adjust the CRF <i> (compression) </i> value if needed. (The default value should be enough)
   4. Click the "Start" button to begin.
