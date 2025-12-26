@@ -11,7 +11,14 @@
   - Encoding presets
 
 ## Download
-  [Download the latest release here](https://github.com/JustSypth/vid-compress/releases/latest) or by going to the [releases](https://github.com/JustSypth/vid-compress/releases/).
+### [Download the latest release here](https://github.com/JustSypth/vid-compress/releases/latest) or by going to the [releases](https://github.com/JustSypth/vid-compress/releases/).  
+
+
+  **If you're a linux user you have to install WebKitGtk with your package manager:**  
+  
+  - **Fedora:** ```sudo dnf install webkit2gtk4.1```
+  - **Debian/Ubuntu:** ```sudo apt install libwebkit2gtk-4.1-0```
+
 
 ## Usage
   1. Unzip the downloaded file archive and run vid-compress.
