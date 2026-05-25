@@ -46,8 +46,8 @@ document.getElementById('info-base').addEventListener('click', function(e) {
 });
 
 async function open_sypth() {
-    console.log("Sypth.xyz opening..");
-    let url = "https://sypth.xyz/";
+    console.log("Opening github profile..");
+    let url = "https://github.com/JustSypth";
     window.__TAURI__.core.invoke("open_url", {url});
     toggle_info();
 }
